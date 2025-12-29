@@ -23,14 +23,19 @@ and software development**.
   Function basics (def, return, parameters, args, kwargs)  
   함수 정의, 반환값, 기본값, 가변 인자 기초
 
+- `04_collections.py`  
+  Core Python collections (list, tuple, dict, set)  
+  파이썬 자료구조 기초 및 실전 활용 예제
+
 ---
 
 ## 🎯 Learning Objectives
 
 - Understand Python syntax and execution flow
-- Write reusable and readable code using functions
-- Build a strong foundation for data preprocessing and analysis
-- Prepare for advanced topics such as collections, OOP, and libraries
+- Use control flow to implement logical conditions and loops
+- Write reusable and structured code using functions
+- Handle core data structures for real-world data processing
+- Prepare for the next stage: core Python patterns and data handling
 
 ---
 
@@ -42,8 +47,8 @@ Python basics are the foundation of:
 - Backend and application logic
 - Algorithmic thinking and problem solving
 
-Without a solid understanding of variables, control flow, and functions,
-it is difficult to write reliable and scalable code.
+Without a solid understanding of variables, control flow, functions,
+and collections, it is difficult to write reliable and scalable code.
 
 ---
 
@@ -52,13 +57,17 @@ it is difficult to write reliable and scalable code.
 - 파이썬 문법의 핵심 구조 이해
 - 조건문과 반복문을 활용한 로직 구성
 - 함수 기반의 재사용 가능한 코드 작성
-- 데이터 분석 및 개발을 위한 기초 체력 확보
+- 자료구조(list, dict 등)를 활용한 데이터 처리 기초 확립
+- 이후 Core 단계(문자열 처리, 파일 입출력 등)를 위한 기반 완성
 
 ---
 
 ## 🚧 Status
 
-**In progress**  
-This section is updated incrementally with daily commits.  
+**Completed – Python Basics (Day 1–4)**  
 
-본 폴더는 매일 학습 내용을 기반으로 지속적으로 업데이트되고 있습니다.
+This section covers the complete basics of Python
+and serves as a foundation for the next module: **02_core**.
+
+본 폴더는 파이썬 기초 단계(Day 1~4)를 완료한 상태이며,  
+이후 단계인 `02_core`로 확장됩니다.
