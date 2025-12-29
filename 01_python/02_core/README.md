@@ -22,13 +22,22 @@ writing practical, structured, and robust Python code.
 
 ---
 
-## 📂 Structure
+## 📂 Structure & Progress
 
 Each file in this directory represents a focused topic and can be studied independently.
+Files are completed incrementally with daily commits.
+
+각 파일은 하나의 핵심 주제를 다루며,  
+일일 학습 단위로 순차적으로 완성됩니다.
+
+### ✅ Completed
 
 - `01_string_methods.py`  
   String processing and text cleaning  
-  문자열 처리 및 텍스트 전처리
+  문자열 처리 및 텍스트 전처리  
+  (공백/대소문자 정리, split/join, replace, 포맷팅, 정규화 함수)
+
+### ⏳ Planned
 
 - `02_collections_advanced.py`  
   Advanced usage of lists, dictionaries, and sets  
@@ -75,19 +84,19 @@ and work on realistic projects.
 
 ## 📌 학습 요약 (한국어)
 
-- 문자열 처리와 데이터 전처리 능력 강화
-- 컬렉션과 컴프리헨션을 활용한 파이썬다운 코드 작성
-- 예외 처리와 파일 입출력을 통한 실무 대응력 확보
-- 이후 단계(OOP, 라이브러리, 데이터 분석)로의 연결 준비
+- 문자열 처리와 데이터 전처리를 통해 실전 데이터 대응력 강화
+- Pythonic 패턴을 활용한 간결하고 가독성 높은 코드 작성
+- 예외 처리와 파일 입출력을 통한 안정적인 프로그램 구성
+- 이후 단계(OOP, 라이브러리, 데이터 분석)로 자연스럽게 연결
 
 ---
 
 ## 🚧 Status
 
-**In progress – Python Core**
+**In progress – Python Core (Day 5 started)**
 
-This module is developed incrementally and serves as the bridge
-between Python basics and applied programming.
+This module is actively developed.
+Each completed file represents a daily learning milestone.
 
-본 단계는 기초 문법 이후의 핵심 단계로,
-차후 객체지향, 라이브러리, 데이터 분석 단계로 확장됩니다.
+본 단계는 현재 진행 중이며,  
+Day 5(`01_string_methods.py`)부터 순차적으로 확장됩니다.
