@@ -69,5 +69,4 @@ and collections, it is difficult to write reliable and scalable code.
 This section covers the complete basics of Python
 and serves as a foundation for the next module: **02_core**.
 
-본 폴더는 파이썬 기초 단계(Day 1~4)를 완료한 상태이며,  
-이후 단계인 `02_core`로 확장됩니다.
+본 폴더는 파이썬 기초 단계(Day 1~4)를 완료한 상태이며, 이후 단계인 `02_core`로 확장됩니다.
