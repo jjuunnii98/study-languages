@@ -1,79 +1,149 @@
 # SQL Joins
 
-This directory covers essential SQL JOIN patterns used in real-world analytics and data engineering.
-Each file focuses on one JOIN type with practical interpretation notes (especially around NULL behavior and filtering).
+This directory covers essential SQL JOIN patterns used in real-world analytics,
+data engineering, and research workflows.
 
-본 폴더는 실무 데이터 분석/엔지니어링에서 필수로 쓰이는 SQL JOIN 패턴을 정리합니다.  
-각 파일은 JOIN 유형별로 “어떻게 동작하는지 + NULL/필터링 주의점”을 중심으로 구성되어 있습니다.
+Each file focuses on one JOIN type and emphasizes:
+- row preservation logic
+- NULL interpretation
+- common filtering pitfalls
+- practical analytics use cases
+
+본 폴더는 실무 데이터 분석, 데이터 엔지니어링, 연구 환경에서
+반드시 이해해야 할 SQL JOIN 패턴을 정리합니다.
+
+각 JOIN 파일은 다음에 초점을 둡니다:
+- 어떤 테이블의 행이 유지되는지
+- NULL이 발생하는 이유와 해석 방법
+- WHERE 조건으로 JOIN 의미가 바뀌는 함정
+- 분석 실무에서의 활용 맥락
 
 ---
 
 ## 🎯 Learning Objectives / 학습 목표
 
-- Understand JOIN semantics (matching logic and row preservation)
-- Interpret NULL results correctly in JOIN outputs
-- Avoid common filtering mistakes that change JOIN behavior
-- Apply JOIN patterns for analytics (cohort, retention, missing reference checks)
+- Understand how different JOIN types preserve or discard rows
+- Interpret NULL values correctly in JOIN results
+- Avoid common mistakes that unintentionally change JOIN semantics
+- Apply JOINs to analytics tasks such as retention, coverage, and data-quality checks
 
-- JOIN의 의미(매칭 로직, 행 보존 기준)를 정확히 이해
-- JOIN 결과에서 NULL이 발생하는 이유를 해석
-- WHERE 조건으로 JOIN 의미가 바뀌는 실수를 방지
-- 분석 실무(유저 기준 분석, 결측 탐지, 무결성 점검)에 JOIN을 적용
+- JOIN 유형별 행 보존 기준을 정확히 이해
+- JOIN 결과의 NULL을 올바르게 해석
+- WHERE 조건으로 JOIN 의미가 바뀌는 실수 방지
+- 분석 실무(유저 기준 분석, 결측 탐지, 무결성 점검)에 JOIN 적용
 
 ---
 
-## 📂 Files / 파일 구성
+## 📂 Files Overview / 파일 구성
 
 ### `01_inner_join.sql`
-**INNER JOIN**: returns only matched rows (intersection).  
-INNER JOIN: 양쪽 테이블에 모두 존재하는 행만 반환(교집합)
+**INNER JOIN**  
+Returns only rows that exist in both tables (intersection).
+
+- 양쪽 테이블에 모두 존재하는 데이터만 반환
+- 기준 데이터 손실 가능
+- 매칭된 데이터만 분석할 때 사용
+
+---
 
 ### `02_left_join.sql`
-**LEFT JOIN**: keeps all rows from the left table and matches right table rows; unmatched right-side values become NULL.  
-LEFT JOIN: 왼쪽 테이블의 모든 행을 유지하고 오른쪽을 붙임. 매칭이 없으면 오른쪽 컬럼이 NULL
+**LEFT JOIN**  
+Keeps all rows from the left table and matches rows from the right table.
+Unmatched right-side values become NULL.
 
-> ⚠️ Note (Progress Tracking Correction)  
-> The original commit message for `02_left_join.sql` mistakenly labeled the day number.  
-> **Correct mapping: Day 6 = LEFT JOIN**  
+- 왼쪽 테이블 기준 분석의 핵심
+- “존재하지 않는 경우”도 분석 대상에 포함 가능
+- 사용자 기준 분석, 미구매/미이용 탐지에 필수
+
+> ⚠️ Progress Tracking Correction  
+> The original commit message mistakenly labeled the day number.  
+> **Correct mapping: Day 6 = LEFT JOIN**
 >
 > ⚠️ 진행 기록 정정  
-> `02_left_join.sql`의 최초 커밋 메시지에 Day 표기가 잘못 들어갔습니다.  
+> `02_left_join.sql`의 최초 커밋 메시지에 Day 표기가 잘못 입력되었습니다.  
 > **정확한 매핑: Day 6 = LEFT JOIN**
 
+---
+
 ### `03_right_join.sql`
-**RIGHT JOIN**: keeps all rows from the right table; unmatched left-side values become NULL.  
-RIGHT JOIN: 오른쪽 테이블의 모든 행을 유지. 매칭이 없으면 왼쪽 컬럼이 NULL  
+**RIGHT JOIN**  
+Keeps all rows from the right table and matches rows from the left table.
+Unmatched left-side values become NULL.
+
+- RIGHT JOIN은 LEFT JOIN의 방향 반전 개념
+- 실무에서는 LEFT JOIN으로 치환해 사용하는 경우가 많음
+- 참조 누락, 데이터 품질 점검에 활용
+
 ✅ **Day 7 = RIGHT JOIN**
 
+---
+
 ### `04_full_join.sql`
-**FULL OUTER JOIN**: keeps all rows from both sides; unmatched columns become NULL.  
-FULL OUTER JOIN: 양쪽 테이블의 모든 행을 유지. 매칭이 없으면 반대쪽 컬럼이 NULL  
-(지원 여부는 DB 엔진에 따라 다를 수 있음)
+**FULL OUTER JOIN**  
+Keeps all rows from both tables.
+Unmatched rows from either side are preserved with NULLs.
+
+- 양쪽 테이블의 모든 데이터 보존
+- 데이터 누락/불일치 탐지에 최적
+- DB 엔진별 지원 여부 차이 존재
+
+DB support:
+- PostgreSQL / SQL Server / Oracle: 지원
+- MySQL / SQLite: 미지원 → UNION 기반 대체 구현 필요
+
+✅ **Day 8 = FULL OUTER JOIN**
 
 ---
 
-## 🧠 Key Pitfalls / 핵심 주의사항
+## ⚠️ Critical Pitfalls / 핵심 주의사항
 
-### 1) WHERE 조건이 JOIN 의미를 바꾸는 문제
-Filtering on the right table in a LEFT JOIN (or left table in a RIGHT JOIN) can unintentionally remove NULL rows and behave like an INNER JOIN.
+### 1) WHERE vs ON clause
+Filtering on the joined table in the WHERE clause can unintentionally remove NULL rows,
+making LEFT/RIGHT JOIN behave like an INNER JOIN.
 
-LEFT JOIN에서 오른쪽 테이블 컬럼에 WHERE 조건을 걸면,  
-NULL 행이 제거되어 결과적으로 INNER JOIN처럼 동작할 수 있습니다.
+LEFT/RIGHT JOIN에서 보존되어야 할 행이  
+WHERE 절 조건으로 제거되면 INNER JOIN처럼 동작할 수 있습니다.
 
-✅ Fix: put conditions in the `ON` clause when you want to preserve left/right rows.  
-✅ 해결: “행 보존”이 목적이면 조건을 `ON` 절로 이동하는 것을 우선 고려합니다.
+✅ Best practice:
+- 행 보존이 목적일 경우 → 조건은 `ON` 절에 위치
+- 필터링이 목적일 경우 → JOIN 이후 `WHERE` 절 사용
 
 ---
 
-## ✅ Progress (Day Mapping) / 진행 상황 (Day 기준)
+## 🧠 Practical Analytics Patterns / 실무 활용 패턴
 
-- Day 6: `02_left_join.sql` (LEFT JOIN)  *(Day 표기 정정: 최초 커밋 메시지 오류)*
-- Day 7: `03_right_join.sql` (RIGHT JOIN)
+- LEFT JOIN + `IS NULL`
+  - 미구매 고객, 미이용 사용자 탐지
+- FULL JOIN
+  - 데이터 누락 / 참조 무결성 검사
+- JOIN 결과 NULL 분석
+  - 데이터 품질 진단, 파이프라인 점검
+- JOIN 기준 테이블 명확화
+  - “무엇을 기준으로 분석하는가?”를 항상 먼저 결정
+
+---
+
+## ✅ Progress Summary / 진행 요약 (Day 기준)
+
+- Day 6: `02_left_join.sql` — LEFT JOIN *(Day 표기 정정)*
+- Day 7: `03_right_join.sql` — RIGHT JOIN
+- Day 8: `04_full_join.sql` — FULL OUTER JOIN
 
 Next:
-- `04_full_join.sql` (FULL OUTER JOIN, engine-dependent)
-- JOIN summary examples (analytics patterns)
+- `03_aggregation` (GROUP BY, HAVING, aggregation functions)
+- JOIN + aggregation combined analytics patterns
 
-다음 작업:
-- `04_full_join.sql` 작성 (DB 엔진별 지원 여부 확인)
-- JOIN 요약/분석 패턴 예시 추가
+---
+
+## 📌 Final Note
+
+JOIN is not just a SQL syntax problem.
+It is a **data interpretation problem**.
+
+Understanding which rows are kept,
+which are lost,
+and why NULL appears
+is essential for trustworthy analytics.
+
+JOIN은 단순 문법이 아니라,
+**데이터를 어떻게 해석할 것인가의 문제**입니다.
