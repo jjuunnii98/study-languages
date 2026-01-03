@@ -1,104 +1,107 @@
 # JavaScript Basics
 
-This directory covers the **fundamental concepts of JavaScript** required for
-web development, data handling, and interactive applications.
+This directory covers the **fundamental concepts of JavaScript**.
+It is designed to build a solid foundation for
+front-end development, data handling, and interactive applications.
 
-It is designed to build a solid foundation before moving on to
-DOM manipulation, asynchronous programming, APIs, and modern tooling.
-
-본 폴더는 JavaScript의 **기초 문법과 실행 흐름**을 다루며,  
-이후 DOM, 비동기 처리, API, 모듈 시스템으로 확장하기 위한
+본 폴더는 JavaScript의 **기초 문법과 핵심 개념**을 다룹니다.  
+프론트엔드 개발, 데이터 처리, 그리고 인터랙티브한 로직 구현을 위한
 기본기를 체계적으로 정리하는 것을 목표로 합니다.
 
 ---
 
 ## 🎯 Learning Objectives
 
-- Understand JavaScript syntax and execution flow
-- Write clear conditional and looping logic
-- Distinguish JavaScript behavior from Python where necessary
-- Prepare for DOM, async, and data-handling concepts
-
-- JavaScript 문법과 실행 흐름 이해
-- 조건문과 반복문을 활용한 로직 구성
-- Python과의 차이점 인식
-- 이후 DOM 및 비동기 프로그래밍 학습을 위한 기반 확보
+- Understand JavaScript variable declarations and data types
+- Control program flow using conditionals and loops
+- Write reusable logic using functions
+- Build foundations for handling arrays/objects and real-world data structures
+- Prepare for DOM manipulation and asynchronous programming
 
 ---
 
 ## 📂 Files & Progress
 
-Each file represents one daily learning unit
-and is implemented with **code + detailed Korean explanations**.
+Each file represents one daily learning unit and includes **code + Korean explanations**.
 
-각 파일은 하루 학습 단위(Day)로 구성되며,  
-코드와 함께 한국어 해설 주석을 포함합니다.
+각 파일은 일일 학습 단위로 구성되며, **코드 + 한국어 주석 해설**을 포함합니다.
 
 ### ✅ Completed
 
-- `01_variables.js`  
-  **Day 1 – Variables and Data Types**  
-  - `var`, `let`, `const`
-  - Dynamic typing
-  - Mutability and reassignment
-  - Comparison with Python concepts
+#### `01_variables.js` (Day 1)
+**Variables and data types**
 
-- `02_control_flow.js`  
-  **Day 2 – Control Flow**  
-  - `if / else` conditions
-  - Comparison & logical operators
-  - `switch` statement
-  - `for` / `while` loops
-  - `break` / `continue`
-  - Practical looping examples
+- `var`, `let`, `const` differences
+- Dynamic typing and `typeof`
+- Reassignment and mutability
+- Comparison with Python variables
+
+---
+
+#### `02_control_flow.js` (Day 2)
+**Control flow: conditionals and loops**
+
+- `if / else if / else`
+- `for`, `while` loops
+- `break` and `continue`
+- Basic branching patterns
+
+---
+
+#### `03_functions.js` (Day 3)
+**Functions**
+
+- Function declaration vs function expression
+- Arrow functions
+- Default parameters
+- Callback functions (conceptual introduction)
 
 ---
 
 ## 🧠 Why JavaScript Basics Matter
 
 JavaScript basics are essential for:
-- Understanding browser behavior
-- Writing interactive UI logic
-- Handling user input and events
-- Managing application state
 
-Without a strong grasp of variables and control flow,
-it is difficult to reason about DOM updates,
-asynchronous execution, or complex frontend logic.
+- Front-end development and UI logic
+- Event-driven programming
+- Data transformation using arrays and objects
+- DOM manipulation and async programming fundamentals
 
-JavaScript 기초는:
-- 브라우저 동작 이해
-- 사용자 인터랙션 처리
-- 상태 관리
-- 비동기 로직 이해
-
-의 기반이 됩니다.
+Without a strong understanding of variables, control flow, and functions,
+it is difficult to implement interactive logic or build reliable applications.
 
 ---
 
-## 🚧 Next Topics (Planned)
+## 🚧 Next Step (Planned)
 
-The following topics will be covered next in this track:
+#### `04_arrays_objects.js` (Day 4)
+**Arrays and Objects**
 
-- `03_functions.js`  
-  Functions, parameters, return values, scope
+- Array creation, indexing, iteration
+- Object literals and property access
+- Array/Object patterns for data handling
+- Practical transformations (map/filter/reduce intro)
 
-- `04_collections.js`  
-  Arrays and objects, iteration patterns, basic transformations
-
-These topics will serve as a bridge to:
-- DOM manipulation
-- Asynchronous programming
-- API interaction
+다음 학습은 **배열과 객체**이며,  
+이후 DOM/비동기/API 파트에서 데이터를 다루는 핵심 기반이 됩니다.
 
 ---
 
-## 📌 Status
+## 📌 학습 요약 (한국어)
 
-**In progress – JavaScript Basics (Day 2 completed)**  
+- Day 1: 변수 선언(var/let/const)과 자료형 이해
+- Day 2: 조건문/반복문으로 실행 흐름 제어
+- Day 3: 함수(선언식/표현식/화살표)로 로직 구조화
+- 다음: 배열/객체 기반 데이터 처리로 확장
 
-This section is updated incrementally with daily commits,
-following the same structured approach as Python and SQL tracks.
+---
+
+## ✅ Status
+
+**In progress – JavaScript Basics (Day 1–3 completed)**
+
+This section is updated incrementally with daily commits,  
+following the same structured approach used in Python and SQL tracks.
 
 본 단계는 진행 중이며,  
-Python·SQL 학습 트랙과 동일한 방식으로 일일 커밋을 통해 확장됩니다.
+Python/SQL 트랙과 동일한 방식으로 일일 커밋을 통해 확장됩니다.
