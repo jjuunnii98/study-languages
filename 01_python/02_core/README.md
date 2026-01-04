@@ -1,136 +1,95 @@
 # Python Core
 
-This directory covers **core Python concepts** required for
-real-world programming, data analysis, and research-oriented workflows.
+This module consolidates the **core Python capabilities** needed for real-world work:
+data handling, robust coding patterns, and project-level organization.
 
-It builds directly on the fundamentals introduced in `01_basics`
-and focuses on writing **robust, readable, and maintainable Python code**.
+It builds on `01_basics` and prepares you for `03_oop`, `04_libraries`,
+and applied data analysis workflows.
 
-본 폴더는 `01_basics`에서 다룬 기초 문법을 바탕으로,  
-실제 데이터 처리·분석·연구 환경에서 반드시 필요한  
-**파이썬 핵심(Core) 개념**을 체계적으로 정리합니다.
-
----
-
-## 🎯 Learning Objectives
-
-- Handle real-world data using strings, collections, and files
-- Write concise and expressive Pythonic code
-- Structure logic into reusable functions and modules
-- Build reliable programs with proper error handling
-- Understand project-level code organization
-- Prepare for OOP, libraries, and data analysis frameworks
+본 모듈은 `01_basics` 이후 단계로,  
+실무/연구에서 바로 쓰이는 **파이썬 핵심 역량(Core)**을 완성합니다.  
+문자열·컬렉션·파일·모듈·시간 처리까지 “데이터 중심 개발”의 기반을 다룹니다.
 
 ---
 
-## 📂 Files & Progress
+## ✅ What You Gain from This Module
 
-Each file represents one focused learning unit  
-and includes **executable code + detailed Korean explanations**.
+### Practical Skills (EN)
+- Clean and transform raw data (strings, collections)
+- Write Pythonic, readable code (comprehensions, lambda)
+- Design reusable functions and safer interfaces
+- Build reliable pipelines with error handling
+- Handle real files (txt/csv/json) and configs
+- Organize code with modules/packages
+- Work with dates/times for logs and time-series
 
-각 파일은 하루 단위 학습으로 구성되며,  
-실행 가능한 코드와 충분한 한국어 주석을 포함합니다.
-
----
-
-### ✅ Completed (Day 5 – Day 11)
-
-#### `01_string_methods.py` (Day 5)
-**String processing and text cleaning**
-
-- 문자열 정규화 (strip, lower, replace)
-- split / join 활용
-- 실무 텍스트 전처리 패턴
-
----
-
-#### `02_collections_advanced.py` (Day 6)
-**Advanced collections usage**
-
-- List / Dictionary / Set 심화
-- 중첩 자료구조 처리
-- 빈도 계산 및 집계 패턴
+### 실무 역량 (KR)
+- 문자열/컬렉션 기반 전처리와 변환 로직 구현
+- Pythonic 문법으로 간결하고 유지보수 가능한 코드 작성
+- 함수 설계를 통한 재사용성과 안정성 확보
+- 예외 처리로 “깨지지 않는 코드” 만들기
+- txt/csv/json 파일 입출력 및 설정 관리
+- 모듈/패키지 구조로 프로젝트 규모 확장
+- datetime/timezone 기반 로그·시계열 처리 준비
 
 ---
 
-#### `03_comprehensions_lambda.py` (Day 7)
-**Pythonic expressions**
+## 📂 Files & Daily Progress
 
-- List / Dict / Set Comprehensions
-- Lambda functions
-- 가독성과 성능을 고려한 표현식 작성
+Each file is a focused learning unit with **executable code + Korean commentary**.
 
----
+각 파일은 하루 단위 학습으로 구성되며 **실행 가능한 코드 + 한국어 주석**을 포함합니다.
 
-#### `04_functions_advanced.py` (Day 8)
-**Advanced function patterns**
+### ✅ Completed (Day 5 – Day 12)
 
-- Scope (local / global)
-- Argument unpacking (`*args`, `**kwargs`)
-- Docstring과 함수 설계 관점
+- `01_string_methods.py` (Day 5)  
+  String processing & text cleaning  
+  문자열 전처리/정규화 패턴
 
----
+- `02_collections_advanced.py` (Day 6)  
+  Advanced collections usage  
+  컬렉션 심화(중첩 구조, 빈도 계산, 변환)
 
-#### `05_error_handling.py` (Day 9)
-**Exception handling**
+- `03_comprehensions_lambda.py` (Day 7)  
+  Comprehensions & lambda  
+  Pythonic 표현식(필터링/변환/정렬 key)
 
-- try / except / else / finally
-- 사용자 정의 예외
-- 안정적인 코드 작성 전략
+- `04_functions_advanced.py` (Day 8)  
+  Advanced function patterns  
+  함수 심화(*args/**kwargs, unpacking, scope, docstrings)
 
----
+- `05_error_handling.py` (Day 9)  
+  Error handling & defensive coding  
+  예외 처리/입력 검증/사용자 정의 예외
 
-#### `06_file_io.py` (Day 10)
-**File Input / Output**
+- `06_file_io.py` (Day 10)  
+  File I/O (txt/csv/json)  
+  파일 입출력과 데이터 로딩/저장 기본
 
-- Text file read / write
-- CSV 파일 처리
-- JSON 파일 로딩 및 저장
-- 데이터 분석 파이프라인 기초
+- `07_modules_packages.py` (Day 11)  
+  Modules & packages  
+  import/alias, 실행 제어(`__name__ == "__main__"`), 구조화 베스트 프랙티스
 
----
-
-#### `07_modules_packages.py` (Day 11)
-**Modules & Packages**
-
-- 모듈과 패키지 개념
-- import 방식과 alias 사용
-- `__name__ == "__main__"` 실행 제어
-- 프로젝트 구조화 베스트 프랙티스
+- `08_datetime_time.py` (Day 12)  
+  DateTime & time handling  
+  포맷/파싱, timedelta, timezone, timestamp, 로그/시계열 패턴
 
 ---
 
-## 🧠 Why Python Core Matters
+## 🧠 Why This Matters
 
-Python Core skills enable you to:
+Core Python is where “toy scripts” become “reliable programs”.
+This module forms the bridge from syntax learning to real project execution.
 
-- Transform raw data into analysis-ready formats
-- Build reusable preprocessing pipelines
-- Write maintainable and testable code
-- Organize medium-to-large scale projects
-- Transition smoothly into data science and ML workflows
-
-Without these skills, it is difficult to move beyond toy examples
-and work on realistic datasets or research-grade projects.
-
----
-
-## 📌 학습 요약 (한국어)
-
-- 문자열·컬렉션·파일·모듈까지 실무 필수 개념 완성
-- Pythonic 문법을 활용한 간결하고 읽기 쉬운 코드 작성
-- 예외 처리로 안정적인 프로그램 구조 이해
-- 프로젝트 단위 코드 구조화 감각 확보
-- 이후 OOP / 라이브러리 / 데이터 분석 단계로 자연스럽게 연결
+Core 단계는 단순 문법 학습을 넘어,  
+“실제 프로젝트를 안정적으로 굴리는 코드”로 넘어가는 전환점입니다.
 
 ---
 
 ## 🚧 Status
 
-**In progress – Python Core (Day 11 completed)**
+**Active – Python Core completed through Day 12**
 
-This module is actively maintained and extended incrementally.
-Each completed file represents a concrete learning milestone.
-
-본 단계는 현재 Day 11까지 완료되었으며,  
-다음 단계인 **OOP 또는 라이브러리 활용 단계**로 확장될 예정입니다.
+Next recommended paths:
+- `03_oop` (classes, dataclasses, design patterns)
+- `04_libraries` (NumPy, pandas, visualization)
