@@ -1,165 +1,127 @@
 # Python Object-Oriented Programming (OOP)
 
-This module covers **Object-Oriented Programming (OOP) in Python**,
-focusing on designing clean, scalable, and maintainable code.
+This directory covers **Object-Oriented Programming (OOP) in Python**.
+It focuses on how Python classes are designed, structured, and used
+to build maintainable, extensible, and real-world software systems.
 
-OOP is a core paradigm for real-world software systems,
-data pipelines, and research-grade implementations.
-
-본 모듈은 파이썬의 **객체지향 프로그래밍(OOP)**을 다룹니다.  
-OOP는 실무 소프트웨어, 데이터 처리 파이프라인,
-그리고 연구 수준의 코드 구현에 필수적인 개념입니다.
+본 폴더는 Python의 **객체지향 프로그래밍(OOP)** 개념을 다룹니다.  
+단순 문법 설명이 아니라,  
+실제 개발·데이터 분석·연구 환경에서 어떻게 클래스를 설계하고 사용하는지에 초점을 둡니다.
 
 ---
 
 ## 🎯 Learning Objectives
 
-- Understand how to model real-world entities using classes and objects
-- Separate state (attributes) and behavior (methods) clearly
-- Apply encapsulation to protect object invariants
-- Distinguish instance attributes from class attributes
-- Design reusable, readable, and testable class structures
-- Prepare for large-scale projects and library-level code
+- Understand how classes and objects work in Python
+- Design clean and reusable class structures
+- Use attributes and methods effectively
+- Control object initialization and representation
+- Apply OOP principles to data modeling and ML pipelines
+- Prepare for advanced topics such as inheritance and design patterns
 
 ---
 
-## 📂 Structure & Progress
+## 📂 Files & Progress
 
 Each file represents a focused daily learning unit.
-All examples include **executable code and detailed Korean explanations**.
+All examples are written with **practical design intent** rather than toy examples.
 
-각 파일은 하루 단위 학습 결과이며,  
-실행 가능한 코드와 충분한 한국어 해설을 포함합니다.
+각 파일은 하루 단위 학습 결과이며,
+실무·연구 환경에서 바로 연결될 수 있도록 설계되었습니다.
 
 ---
 
 ### ✅ Completed
 
-#### `01_classes_basics.py` (Day 13)
-**Classes and objects**
+#### `01_classes_basics.py` (Day 14)
+**Class fundamentals**
 
-- What classes are and why they exist
-- Creating instances (objects)
-- Understanding `self`
-- Class vs object distinction
-- Basic modeling of real-world concepts
+- Defining classes and creating objects
+- Instance attributes and basic methods
+- Object-centric thinking vs procedural code
+- Simple real-world examples
 
-> 객체지향의 출발점으로,  
-> “클래스는 설계도, 객체는 실체”라는 개념을 명확히 다룹니다.
+> 객체지향의 출발점이 되는 클래스와 객체 개념을 다룹니다.
 
 ---
 
 #### `02_attributes_methods.py` (Day 14)
-**Attributes and methods (professional approach)**
+**Attributes and methods in depth**
 
 - Instance attributes vs class attributes
-- Object state management
-- Methods that mutate and query object state
-- Basic validation and defensive programming
-- Encapsulation using `property`
-- Private helper methods for internal logic
+- Method definitions and `self`
+- Encapsulation of data and behavior
+- Cleaner and more expressive class interfaces
 
-> 단순 문법 설명을 넘어,  
-> 실무에서 바로 사용 가능한 객체 설계 패턴을 다룹니다.
+> 데이터와 로직을 함께 묶는 OOP의 핵심 구조를 학습합니다.
+
+---
+
+#### `03_init_and_repr.py` (Day 15)
+**Object initialization and representation**
+
+- `__init__` for controlled object creation
+- `__repr__` for developer-friendly object representation
+- Debugging and logging benefits
+- Data-oriented class design examples
+
+> 실제 개발 및 데이터 분석 환경에서
+> 클래스의 가독성과 신뢰성을 높이는 핵심 메서드입니다.
 
 ---
 
 ### ⏳ Planned
 
-#### `03_init_and_repr.py`
-**Initialization and representation**
+- `04_inheritance.py`  
+  Inheritance and class hierarchies  
+  상속과 클래스 구조 설계
 
-- `__init__` for robust object initialization
-- `__repr__` and `__str__` for debugging and logging
-- Designing readable object representations
+- `05_polymorphism.py`  
+  Polymorphism and method overriding  
+  다형성과 메서드 오버라이딩
 
----
+- `06_abstract_base_class.py`  
+  Abstract base classes and interfaces  
+  추상 클래스와 인터페이스 개념
 
-#### `04_inheritance.py`
-**Inheritance**
-
-- Base and derived classes
-- Method overriding
-- Using `super()`
-- When inheritance is appropriate
-
----
-
-#### `05_composition.py`
-**Composition**
-
-- HAS-A vs IS-A relationships
-- Composition over inheritance
-- Building flexible object structures
-
----
-
-#### `06_encapsulation.py`
-**Encapsulation**
-
-- Public, protected, and private attributes
-- Property-based access control
-- Preventing invalid state transitions
-
----
-
-#### `07_dataclass.py`
-**Dataclasses**
-
-- Reducing boilerplate code
-- Default values and immutability
-- Comparison and representation
-
----
-
-#### `08_abc_interfaces.py`
-**Abstract Base Classes**
-
-- Interface-like design in Python
-- Enforcing implementation contracts
-- Designing extensible systems
-
----
-
-#### `09_oop_design_patterns.py`
-**OOP design patterns**
-
-- Common object-oriented patterns
-- Practical usage scenarios
-- Design trade-offs and best practices
+- `07_dataclasses.py`  
+  `@dataclass` for clean data models  
+  데이터 중심 클래스 설계
 
 ---
 
 ## 🧠 Why OOP Matters
 
-Object-Oriented Programming enables you to:
+Object-Oriented Programming allows you to:
 
-- Represent complex systems in a structured way
-- Manage growing codebases effectively
-- Enforce invariants and domain rules
-- Improve readability, reuse, and maintainability
-- Transition smoothly into frameworks and large projects
+- Model complex real-world entities naturally
+- Encapsulate data and behavior together
+- Reduce code duplication
+- Build scalable and testable systems
+- Design ML pipelines and data models cleanly
 
-Without OOP, large systems quickly become difficult to reason about.
+In research and production environments,
+well-designed classes significantly improve
+code clarity, debugging, and collaboration.
 
 ---
 
 ## 📌 학습 요약 (한국어)
 
-- 클래스와 객체를 통한 현실 세계 개념 모델링
-- 상태(state)와 행동(behavior)의 명확한 분리
-- 캡슐화를 통한 안전한 객체 설계
-- 실무·연구 프로젝트에 바로 적용 가능한 구조화 능력 확보
-- 이후 라이브러리, 프레임워크, 대규모 코드로의 연결 준비
+- 클래스와 객체의 구조적 이해
+- 속성과 메서드를 통한 데이터 모델링
+- `__init__`, `__repr__`를 활용한 전문적인 클래스 설계
+- 데이터 분석·머신러닝 코드에 바로 적용 가능한 OOP 감각
+- 이후 상속·다형성·설계 패턴으로 확장 준비
 
 ---
 
 ## 🚧 Status
 
-**In progress – Python OOP (Day 13–14 completed)**
+**In progress – Python OOP (Day 14–15 completed)**
 
-This module is actively developed with daily commits.
-Each file represents a concrete step toward professional Python OOP.
+This module is actively developed.
+Each completed file represents one daily milestone.
 
-본 단계는 Day 13부터 진행 중이며,  
-전문적인 객체 설계 역량을 목표로 확장되고 있습니다.
+본 단계는 Day 15까지 완료되었으며,  
+다음으로 상속(Inheritance)과 구조적 설계로 확장됩니다.
