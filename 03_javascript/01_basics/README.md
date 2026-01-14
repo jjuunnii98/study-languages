@@ -5,7 +5,7 @@ It is designed to build a strong foundation for
 front-end development, data handling, and full-stack applications.
 
 본 폴더는 JavaScript의 **기본 문법과 핵심 실행 원리**를 다룹니다.  
-단순 문법 암기가 아닌, 실제 코드 실행 흐름과 동작 원리를 이해하는 것을 목표로 합니다.
+단순 문법 암기가 아니라, 실제 코드 실행 흐름과 동작 원리를 이해하는 것을 목표로 합니다.
 
 ---
 
@@ -16,6 +16,7 @@ front-end development, data handling, and full-stack applications.
 - Write reusable logic using functions
 - Work confidently with arrays and objects
 - Master scope and hoisting to avoid common runtime bugs
+- Learn commonly used built-in objects and methods for everyday coding
 - Prepare for DOM manipulation and asynchronous programming
 
 ---
@@ -23,7 +24,7 @@ front-end development, data handling, and full-stack applications.
 ## 📂 Files & Progress
 
 Each file represents one daily learning unit (Day-based progression).
-All examples include **executable code and detailed Korean explanations**.
+All examples include executable code with detailed Korean explanations.
 
 각 파일은 하루 단위 학습 결과이며,
 실행 가능한 코드와 충분한 한국어 주석을 포함합니다.
@@ -94,6 +95,18 @@ All examples include **executable code and detailed Korean explanations**.
 
 ---
 
+#### `07_basic_builtins.js` (Day 7)
+**Basic built-in objects and methods**
+
+- `Math` (round, floor/ceil, max/min, random)
+- String methods (`length`, `trim`, `includes`, `replace`, case conversion)
+- Number helpers (`toFixed`, `Number.isInteger`, parsing helpers)
+- Array helpers (`push/pop`, `includes`, `indexOf`, `join`)
+- `Date` basics (year/month/day)
+- Common type conversion helpers (`String`, `Number`, `Boolean`)
+
+---
+
 ## 🧠 Why JavaScript Basics Matter
 
 JavaScript basics are essential for:
@@ -116,17 +129,18 @@ advanced JavaScript concepts quickly become difficult to manage.
 - 함수 기반 재사용 가능한 코드 작성
 - 배열과 객체를 활용한 실무 데이터 구조 이해
 - 스코프와 호이스팅을 통해 런타임 오류 예방
+- 기본 내장 객체/메서드(Math, String, Number, Date 등) 활용 능력 확보
 - 이후 DOM, 비동기 처리, API 학습을 위한 준비 완료
 
 ---
 
 ## 🚧 Status
 
-**In progress – JavaScript Basics (Day 1–6 completed)**
+**In progress – JavaScript Basics (Day 1–7 completed)**
 
 This module is actively developed with daily commits.
 The next steps include array methods, DOM manipulation,
 and asynchronous programming.
 
-본 단계는 Day 6까지 완료되었으며,  
+본 단계는 Day 7까지 완료되었으며,  
 다음으로 배열 메서드, DOM 조작, 비동기 처리로 확장됩니다.
