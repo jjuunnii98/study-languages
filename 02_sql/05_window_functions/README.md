@@ -1,116 +1,117 @@
 # SQL Window Functions
 
-This directory covers **SQL Window Functions**, which enable
-advanced analytical queries while preserving row-level detail.
+This directory covers **SQL Window Functions**, which enable advanced analytics
+while preserving row-level detail.
 
-Window functions are essential for time-series analysis,
-ranking, cumulative calculations, and behavioral analytics.
+Window functions are essential for:
+- ranking and tiering
+- cumulative metrics
+- top-N per group
+- time-series comparisons (lag/lead)
+- feature engineering for analytics and ML workflows
 
 본 폴더는 SQL의 **윈도우 함수(Window Functions)**를 다룹니다.  
-윈도우 함수는 행을 그룹으로 묶지 않고도,
-각 행 기준의 분석 결과를 함께 계산할 수 있게 해줍니다.
+윈도우 함수는 `GROUP BY`처럼 행을 합치지 않고도,
+**각 행을 유지한 채 분석 지표를 함께 계산**할 수 있게 해줍니다.
 
 ---
 
 ## 🎯 Learning Objectives
 
-- Understand what window functions are and why they matter
-- Learn how the OVER clause defines analytical windows
-- Apply PARTITION BY and ORDER BY for grouped analytics
-- Distinguish window functions from GROUP BY aggregations
-- Prepare for ranking and time-based analytical functions
+- Understand the purpose of window functions and the `OVER()` clause
+- Use `PARTITION BY` for group-aware analytics
+- Use `ORDER BY` for ordered/cumulative analytics
+- Apply ranking functions (`RANK`, `DENSE_RANK`, `ROW_NUMBER`)
+- Build practical patterns such as **Top-N per group** and **stable ranking**
+- Prepare for time-aware analytics (e.g., `LAG`, `LEAD`)
 
 ---
 
 ## 📂 Files & Progress
 
-Each file represents a focused analytical concept.
-Examples are written with **practical analytics use cases** in mind.
+Each file is written with practical analytics use cases in mind.
+Files are completed incrementally with daily commits.
 
-각 파일은 실무에서 자주 사용되는 분석 패턴을 중심으로 구성되어 있습니다.
+각 파일은 실무 분석에 바로 적용 가능한 예제 중심으로 구성되어 있으며,
+Day 단위로 점진적으로 확장됩니다.
 
 ---
 
-### ✅ Completed
+## ✅ Completed
 
-#### `01_ever_clause.sql` (Day 13)
+### `01_ever_clause.sql` (Day 13)
 **OVER clause fundamentals**
 
-- Basic usage of `OVER()`
+**Key topics**
+- Basic `OVER()` usage
 - Difference between `GROUP BY` and window functions
-- `PARTITION BY` for grouped analytics
-- `ORDER BY` for cumulative calculations
-- Combining `PARTITION BY` and `ORDER BY`
+- `PARTITION BY` for group-wise analytics
+- `ORDER BY` within `OVER()` for ordered/cumulative patterns
 - Preserving row-level detail while adding aggregate context
 
-> 윈도우 함수의 핵심은 **OVER 절**입니다.  
-> 이 파일은 이후 모든 윈도우 함수 학습의 기반이 됩니다.
+**핵심 포인트(한국어)**
+- 윈도우 함수의 시작점은 `OVER()`  
+- `GROUP BY`는 행을 줄이지만, 윈도우 함수는 **행을 유지**한다  
+- `PARTITION BY`로 그룹 기준 분석, `ORDER BY`로 순서/누적 분석 가능
 
 ---
 
-### ⏳ Planned
+### `02_rank_dense_rank.sql` (Day 14)
+**Ranking functions: tie-handling and practical patterns**
 
-#### `02_rank_dense_rank.sql`
-**Ranking functions**
+**Key topics**
+- `RANK()` vs `DENSE_RANK()` differences (tie-handling)
+- Stable / deterministic ranking using tie-breakers in `ORDER BY`
+- Partitioned ranking: ranking **within groups**
+- Top-N per group using CTE/subquery filtering (`rank <= N`)
+- A realistic example pattern: customer tiering
 
-- `RANK()` vs `DENSE_RANK()`
-- Handling ties in ordered data
-- Ranking within partitions
-- Practical ranking use cases
-
----
-
-#### `03_row_number.sql`
-**Row numbering**
-
-- `ROW_NUMBER()` for unique row ordering
-- Deduplication patterns
-- Pagination logic
-- Selecting top-N records per group
+**핵심 포인트(한국어)**
+- `RANK()`는 동점 후 순위를 건너뜀 (1,1,3…)  
+- `DENSE_RANK()`는 동점 후 순위가 연속 (1,1,2…)  
+- 실무에서는 재현성을 위해 `ORDER BY`에 tie-breaker를 추가하는 것이 중요
 
 ---
 
-#### `04_lag_lead.sql`
-**Time-aware analysis**
+## ⏳ Planned
 
-- `LAG()` and `LEAD()` functions
-- Comparing current and previous rows
-- Time-series change detection
-- Financial and behavioral analytics patterns
+### `03_row_number.sql`
+**Row numbering and deduplication**
+- `ROW_NUMBER()` for unique ordering
+- Deduplication patterns (latest record per group)
+- Top-1 per group
+- Pagination and deterministic selection
 
 ---
 
 ## 🧠 Why Window Functions Matter
 
-Window functions allow you to:
+Window functions enable:
+- analytical features without losing granularity
+- scalable ranking and segmentation
+- time-aware comparisons in longitudinal datasets
+- expressive SQL for BI/analytics pipelines
+- feature engineering for ML preprocessing (SQL-first workflows)
 
-- Perform advanced analytics without collapsing rows
-- Analyze trends over time
-- Rank and compare entities within groups
-- Build features for financial, healthcare, and behavioral data
-- Write expressive and performant analytical SQL
-
-In modern data analytics,
-window functions are a **must-have skill**.
+In modern analytics, window functions are a **core competency**.
 
 ---
 
 ## 📌 학습 요약 (한국어)
 
-- 윈도우 함수는 행 단위 분석을 가능하게 하는 핵심 SQL 기능
-- `OVER()`는 모든 윈도우 함수의 출발점
-- `PARTITION BY`는 분석 그룹을 정의
-- `ORDER BY`는 누적·순서 기반 분석을 가능하게 함
-- GROUP BY로는 불가능한 분석을 가능하게 함
+- 윈도우 함수는 **행을 유지**하면서 분석 지표를 계산하는 핵심 SQL 기술
+- `OVER()`는 윈도우 함수의 기반이며, `PARTITION BY`/`ORDER BY`로 분석 창을 정의
+- `RANK`/`DENSE_RANK`는 동점 처리 규칙이 달라 실무 목적에 따라 선택해야 함
+- 그룹별 Top-N, 안정적 순위 계산 등 실무 패턴의 기반이 됨
 
 ---
 
 ## 🚧 Status
 
-**In progress – Window Functions (Day 13 started)**
+**In progress – Window Functions (Day 13–14 completed)**
 
-This module is actively developed.
-The next steps include ranking and time-shift functions.
+Next steps focus on `ROW_NUMBER()` and time-shift functions (`LAG`, `LEAD`)
+to support deduplication and time-series analytics.
 
-본 단계는 Day 13부터 진행 중이며,  
-이후 순위 함수와 시계열 분석으로 확장됩니다.
+본 단계는 Day 14까지 완료되었으며,  
+다음은 `ROW_NUMBER()` 및 `LAG/LEAD` 기반 시계열 분석으로 확장됩니다.
