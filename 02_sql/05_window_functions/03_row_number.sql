@@ -1,213 +1,107 @@
-/*
-Day 15: SQL Window Functions — ROW_NUMBER()
+# SQL Window Functions
 
-ROW_NUMBER()는 윈도우 함수 중 가장 자주 쓰이는 함수 중 하나다.
-- 그룹(파티션) 내에서 정렬 기준에 따라 1,2,3... 순번을 부여한다.
-- RANK/DENSE_RANK와 달리 "동점(tie)"이 있어도 무조건 고유한 순번을 부여한다.
+This directory covers **SQL window functions**, which enable advanced
+analytics without collapsing rows like traditional aggregation.
 
-실무에서 ROW_NUMBER()가 많이 쓰이는 이유:
-1) 그룹별 Top-N 추출 (예: 고객별 최근 구매 1건)
-2) 중복 제거(dedup) (예: 동일 키에서 최신 레코드만 남기기)
-3) 페이징/샘플링/순차 처리용 ID 생성
+Window functions are essential for:
+- Ranking and ordering within groups
+- Time-aware analytics
+- Deduplication and latest-record selection
+- Advanced analytical queries used in real-world data pipelines
 
-아래 예제들은 PostgreSQL/MySQL 8+/SQL Server/BigQuery 등에서
-개념적으로 동일하게 적용된다. (세부 문법은 DBMS마다 일부 차이 가능)
-*/
+본 폴더는 **윈도우 함수(Window Functions)**를 다루며,  
+그룹별 순위, 누적 계산, 중복 제거 등 **실무 SQL 분석의 핵심 기법**을 정리합니다.
 
+---
 
-/* ------------------------------------------------------------
-[Example 0] 기본 문법 구조
------------------------------------------------------------- */
+## 🎯 Learning Objectives
 
--- SELECT
---   ...,
---   ROW_NUMBER() OVER (PARTITION BY <group_cols> ORDER BY <sort_cols>) AS rn
--- FROM <table>;
+- Understand how window functions differ from GROUP BY
+- Apply ranking and ordering within partitions
+- Perform time-aware and group-aware analytics
+- Write readable and deterministic analytical SQL
+- Prepare for advanced analytics and reporting queries
 
+---
 
-/* ------------------------------------------------------------
-[Example 1] 고객별 구매 내역에 순번 부여
-- customer_id 별로 purchase_at 최신순 정렬 → rn=1이 "가장 최근 구매"
------------------------------------------------------------- */
+## 📂 Files & Progress
 
-SELECT
-  customer_id,
-  order_id,
-  purchase_at,
-  amount,
-  ROW_NUMBER() OVER (
-    PARTITION BY customer_id
-    ORDER BY purchase_at DESC
-  ) AS rn
-FROM orders;
+### ✅ Completed
 
+#### `01_ever_clause.sql` (Day 13)
+**OVER clause fundamentals**
 
-/* ------------------------------------------------------------
-[Example 2] 고객별 "최근 구매 1건"만 가져오기 (Top-1)
-- 위 Example 1을 서브쿼리(또는 CTE)로 감싼 후 rn=1 필터
------------------------------------------------------------- */
+- Window function의 기본 구조 이해
+- `PARTITION BY`와 `ORDER BY`의 역할
+- 집계 함수와 윈도우 함수의 차이
+- 누적 합계, 이동 평균 등 분석 패턴 소개
 
-WITH ranked_orders AS (
-  SELECT
-    customer_id,
-    order_id,
-    purchase_at,
-    amount,
-    ROW_NUMBER() OVER (
-      PARTITION BY customer_id
-      ORDER BY purchase_at DESC
-    ) AS rn
-  FROM orders
-)
-SELECT
-  customer_id,
-  order_id,
-  purchase_at,
-  amount
-FROM ranked_orders
-WHERE rn = 1
-ORDER BY customer_id;
+> 윈도우 함수의 “문법적 뼈대”를 다지는 단계
 
+---
 
-/* ------------------------------------------------------------
-[Example 3] 고객별 "최근 N건" 가져오기 (Top-N)
-- rn <= 3 이면 최근 3건
------------------------------------------------------------- */
+#### `02_rank_dense_rank.sql` (Day 14)
+**RANK vs DENSE_RANK**
 
-WITH ranked_orders AS (
-  SELECT
-    customer_id,
-    order_id,
-    purchase_at,
-    amount,
-    ROW_NUMBER() OVER (
-      PARTITION BY customer_id
-      ORDER BY purchase_at DESC
-    ) AS rn
-  FROM orders
-)
-SELECT
-  customer_id,
-  order_id,
-  purchase_at,
-  amount,
-  rn
-FROM ranked_orders
-WHERE rn <= 3
-ORDER BY customer_id, rn;
+- 그룹 내 순위 계산 방식 비교
+- 동점(tie)이 발생했을 때의 차이
+- 비즈니스 랭킹/등급 산정에서의 활용
 
+| Function | Tie Handling | Example |
+|--------|--------------|---------|
+| RANK | Skips ranks | 1,1,3 |
+| DENSE_RANK | No gaps | 1,1,2 |
 
-/* ------------------------------------------------------------
-[Example 4] 중복 제거(Dedup): 동일 email에서 최신 사용자만 남기기
-- user_updates 테이블에 같은 email이 여러 번 들어오는 상황
-- updated_at 최신 1건만 남기려면 rn=1만 선택
+> “순위의 의미”를 명확히 구분하는 것이 핵심
 
-포인트:
-- PARTITION BY: 중복 기준(여기서는 email)
-- ORDER BY: 최신 기준(여기서는 updated_at DESC)
------------------------------------------------------------- */
+---
 
-WITH dedup AS (
-  SELECT
-    user_id,
-    email,
-    name,
-    updated_at,
-    ROW_NUMBER() OVER (
-      PARTITION BY email
-      ORDER BY updated_at DESC
-    ) AS rn
-  FROM user_updates
-)
-SELECT
-  user_id,
-  email,
-  name,
-  updated_at
-FROM dedup
-WHERE rn = 1;
+#### `03_row_number.sql` (Day 15)
+**ROW_NUMBER practical patterns**
 
+- 그룹별 고유 순번 생성
+- 고객별 최신 레코드 선택 (Top-1)
+- Top-N 분석
+- 중복 제거(Deduplication)
+- 페이징/배치 처리용 순번 생성
 
-/* ------------------------------------------------------------
-[Example 5] "최신 + 타이브레이커" 설계
-- updated_at이 동일한 레코드(동점)일 수 있다.
-- 이 경우 ORDER BY에 추가 기준을 넣어 "결정 규칙"을 명확히 해야 한다.
-  예: updated_at DESC, user_id DESC
+핵심 포인트:
+- `ROW_NUMBER()`는 **항상 고유한 순번**을 부여
+- 재현 가능한 결과를 위해 **ORDER BY에 tie-breaker 필수**
 
-이렇게 해야 결과가 매번 동일(재현 가능)해진다.
------------------------------------------------------------- */
+> 실무에서 가장 많이 사용되는 윈도우 함수 패턴
 
-WITH dedup AS (
-  SELECT
-    user_id,
-    email,
-    name,
-    updated_at,
-    ROW_NUMBER() OVER (
-      PARTITION BY email
-      ORDER BY updated_at DESC, user_id DESC
-    ) AS rn
-  FROM user_updates
-)
-SELECT
-  user_id,
-  email,
-  name,
-  updated_at
-FROM dedup
-WHERE rn = 1;
+---
 
+## 🧠 Why Window Functions Matter
 
-/* ------------------------------------------------------------
-[Example 6] ROW_NUMBER vs RANK vs DENSE_RANK 차이 (개념 정리)
-- 동점이 있을 때:
-  ROW_NUMBER(): 1,2,3... (무조건 고유 순번)
-  RANK():       1,1,3... (동점 다음 순번이 건너뜀)
-  DENSE_RANK(): 1,1,2... (동점 다음 순번이 연속)
+Window functions allow you to:
+- Keep row-level detail while performing analytics
+- Answer questions like:
+  - “각 그룹에서 가장 최신 데이터는?”
+  - “누적 값은 어떻게 변하는가?”
+  - “상위 N개는 무엇인가?”
+- Replace complex subqueries with readable SQL
 
-즉, "정확히 N개만" 뽑고 싶으면 ROW_NUMBER가 더 예측 가능하다.
------------------------------------------------------------- */
+GROUP BY는 “요약”에 강하고,  
+Window Functions는 “분석 흐름”에 강하다.
 
-SELECT
-  department,
-  employee_id,
-  salary,
-  ROW_NUMBER()  OVER (PARTITION BY department ORDER BY salary DESC) AS rn,
-  RANK()        OVER (PARTITION BY department ORDER BY salary DESC) AS rnk,
-  DENSE_RANK()  OVER (PARTITION BY department ORDER BY salary DESC) AS drnk
-FROM employees;
+---
 
+## 📌 한국어 요약
 
-/* ------------------------------------------------------------
-[Example 7] 페이징/배치 처리에 활용
-- 전체 데이터를 정렬 기준으로 순번 매긴 후
-- rn 범위로 원하는 구간만 가져올 수 있다.
-(대규모 데이터에서는 OFFSET보다 성능이 나을 때가 많다)
+- 윈도우 함수는 **행을 유지한 채 분석**을 가능하게 한다
+- OVER 절은 모든 윈도우 함수의 핵심
+- RANK / DENSE_RANK / ROW_NUMBER는 각각 다른 목적을 가진다
+- 최신 데이터 선택, 중복 제거, 순위 분석은 실무에서 매우 빈번하다
+- ORDER BY 기준이 곧 “비즈니스 규칙”이 된다
 
-주의:
-- DBMS에 따라 최적화 방식이 다르며, 인덱스 설계가 중요하다.
------------------------------------------------------------- */
+---
 
-WITH numbered AS (
-  SELECT
-    order_id,
-    purchase_at,
-    amount,
-    ROW_NUMBER() OVER (ORDER BY purchase_at DESC, order_id DESC) AS rn
-  FROM orders
-)
-SELECT
-  order_id,
-  purchase_at,
-  amount
-FROM numbered
-WHERE rn BETWEEN 101 AND 200
-ORDER BY rn;
+## 🚧 Status
 
+**Completed (Day 13–15)**  
+Window function fundamentals and core ranking patterns are complete.
 
-/*
-요약
-- ROW_NUMBER()는 그룹 내 "고유 순번"을 만드는 함수
-- Top-N, dedup(최신 1건), 페이징/배치 처리에서 매우 자주 쓰인다
-- ORDER BY에 타이브레이커를 넣어 결과의 재현성을 확보하자
-*/
+본 단계는 윈도우 함수의 핵심 개념과 실무 패턴을 모두 다루었으며,  
+이후 고급 분석 SQL의 기반이 됩니다.
