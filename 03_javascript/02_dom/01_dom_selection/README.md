@@ -1,91 +1,77 @@
 # DOM Selection
 
-This module focuses on **selecting elements from the DOM using JavaScript**.
-Correct and predictable element selection is the foundation of all DOM manipulation
-and event handling.
+This directory covers the fundamentals of **selecting DOM elements** in JavaScript.
+DOM selection is the first step for DOM manipulation, event handling, and interactive UI logic.
 
-본 파트는 JavaScript에서 **DOM 요소를 선택하는 방법**을 다룹니다.  
-DOM 조작의 시작은 “어떤 요소를 정확히 가져오느냐”이며,
-잘못된 선택은 UI 버그와 예측 불가능한 동작의 원인이 됩니다.
+본 폴더는 JavaScript에서 **DOM 요소를 선택하는 기초 방법**을 다룹니다.
+DOM 선택은 이후 DOM 조작, 이벤트 처리, 폼 처리로 이어지는 핵심 출발점입니다.
+
+---
+
+## 📂 Files
+
+### `01_get_element.js` (Day 8)
+Classic DOM selection methods
+
+- `getElementById`
+- `getElementsByClassName`
+- `getElementsByTagName`
+- `getElementsByName`
+- HTMLCollection의 특징(실시간 컬렉션)
+
+**한국어 요약**
+- 전통적인 DOM 선택 API를 이해
+- 반환 타입(단일 / 복수)과 컬렉션의 성격 파악
+
+---
+
+### `02_query_selector.js` (Day 9)
+Modern DOM selection using CSS selectors
+
+- `querySelector`
+- `querySelectorAll`
+- CSS 선택자 기반 DOM 접근
+- NodeList와 Array의 차이
+- null 체크 및 안전한 선택 패턴
+- 실무에서 자주 쓰는 active 요소 선택 패턴
+
+**한국어 요약**
+- 최신 표준 DOM 선택 방식 학습
+- 단일 vs 다중 요소 선택 차이 명확화
+- 실무 수준의 안전한 DOM 접근 습관 형성
 
 ---
 
 ## 🎯 Learning Objectives
 
-- Understand different DOM selection APIs
-- Choose the appropriate selector based on use case
-- Recognize the differences between live and static collections
-- Avoid common pitfalls in element selection
-
----
-
-## 📂 Files & Progress
-
-Each file represents a focused concept.
-Files are completed incrementally with day-based commits.
-
-각 파일은 하나의 핵심 개념을 다루며,
-Day 단위 학습 기록으로 순차적으로 완성됩니다.
-
----
-
-### ✅ Completed
-
-#### `01_get_element.js` (Day 8)
-**Basic DOM selection using legacy APIs**
-
-**Covered topics**
-- `document.getElementById`
-- `document.getElementsByClassName`
-- `document.getElementsByTagName`
-- Return values (`Element`, `HTMLCollection`, `null`)
-- Iterating over `HTMLCollection`
-- Live collection characteristics
-
-**핵심 포인트 (한국어)**
-- `getElementById`는 단일 요소 또는 `null` 반환
-- `getElementsByClassName`, `getElementsByTagName`은 `HTMLCollection` 반환
-- `HTMLCollection`은 실시간(live)으로 DOM 변경을 반영
-- 배열 메서드를 바로 사용할 수 없다는 점에 주의
-
----
-
-### ⏳ Planned
-
-#### `02_query_selector.js`
-**Modern DOM selection**
-- `querySelector` vs `querySelectorAll`
-- CSS selector-based selection
-- `NodeList` vs `HTMLCollection`
-- Static vs live collections
-
-#### `03_node_list_vs_html_collection.js`
-**Collection comparison**
-- Practical differences
-- Performance and safety considerations
-- Real-world usage patterns
+- DOM 구조와 선택의 개념 이해
+- 상황에 맞는 선택 API 사용
+- 안전한 DOM 접근 패턴 습득
+- 이후 DOM 조작 및 이벤트 처리로 확장 준비
 
 ---
 
 ## 🧠 Why DOM Selection Matters
 
-Accurate DOM selection allows you to:
-- Manipulate the correct UI elements
-- Avoid unexpected side effects
-- Write maintainable and readable front-end code
-- Scale interaction logic as the UI grows
+DOM selection enables:
+- Dynamic UI updates
+- Event handling
+- Form validation
+- Interactive web applications
 
-DOM 선택은 단순한 문법 문제가 아니라,
-**UI 안정성과 코드 품질을 결정하는 핵심 요소**입니다.
+Without reliable DOM selection,
+DOM manipulation code becomes fragile and error-prone.
+
+DOM 선택은 모든 프론트엔드 로직의 기초이며,
+이 단계가 탄탄해야 이후 코드 품질이 안정됩니다.
 
 ---
 
 ## 🚧 Status
 
-**In progress — DOM Selection (Day 8 started)**
+**Completed — DOM Selection (Day 8–9)**
 
-This module will continue with modern selector APIs
-and practical comparison patterns.
-
-본 파트는 Day 8부터 시작되었으며,
-이후 현대적인 선택 방식과 실무 패턴으로 확장됩니다.
+Next steps:
+- DOM manipulation
+- Event handling
+- Form & input processing
