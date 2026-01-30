@@ -1,10 +1,10 @@
 # DOM Manipulation
 
 This section focuses on **manipulating existing DOM elements** after they have been selected.  
-It covers creating, removing, and updating elements dynamically based on user interaction or program logic.
+It covers creating, removing, traversing, and updating elements dynamically based on user interaction or program logic.
 
 본 섹션은 **이미 선택된 DOM 요소를 실제로 조작하는 방법**에 집중합니다.  
-요소 생성, 삭제, 텍스트/HTML 변경 등 **동적인 UI 제어의 핵심 개념**을 다룹니다.
+요소 생성, 삭제, 탐색(Traversing), 텍스트/HTML/스타일 변경 등 **동적인 UI 제어의 핵심 개념**을 다룹니다.
 
 ---
 
@@ -12,7 +12,8 @@ It covers creating, removing, and updating elements dynamically based on user in
 
 - Create and remove DOM elements dynamically
 - Update text and HTML content safely and correctly
-- Understand differences between text-based and structure-based updates
+- Manipulate classes and inline styles using state-based patterns
+- Traverse parent/child/sibling relationships in the DOM tree
 - Build intuition for real-world UI manipulation patterns
 
 ---
@@ -55,16 +56,46 @@ It covers creating, removing, and updating elements dynamically based on user in
 
 ---
 
+### `03_class_style_manipulation.js` (Day 13)
+
+**Class & Style Manipulation (State-based UI Pattern)**
+
+- `classList.add/remove/toggle/contains`
+- inline `style` 조작 및 reset 전략
+- “상태(state)에 따라 UI를 바꾸는” 토글 패턴
+
+📌 핵심 포인트  
+- 실무에서는 **class 토글 기반 UI 제어**가 유지보수에 유리
+- inline style은 학습용으로 이해하되, 남발은 지양
+
+---
+
+### `04_dom_traversing.js` (Day 14)
+
+**DOM Traversing (Parent / Child / Sibling Navigation)**
+
+- `parentElement`, `children`, `firstElementChild`, `lastElementChild`
+- `previousElementSibling`, `nextElementSibling`
+- `closest(selector)`를 활용한 조상 탐색
+- 이벤트 위임 기반 탐색 패턴(ul에서 li를 처리)
+
+📌 핵심 포인트  
+- DOM 탐색은 “기준점 + 최소 탐색”이 안정적
+- `nextSibling` 대신 **`nextElementSibling` 권장** (텍스트 노드 혼입 방지)
+
+---
+
 ## 🧠 Practical Insights
 
-DOM 조작은 단순한 문법 문제가 아니라  
-**UI 상태, 보안, 유지보수성**과 직결되는 문제입니다.
+DOM 조작은 단순 문법이 아니라  
+**UI 상태 관리, 보안, 유지보수성**과 직결됩니다.
 
-이 섹션을 통해 다음과 같은 감각을 기르는 것이 목표입니다:
+이 섹션의 목표는 다음 질문에 답할 수 있는 감각을 기르는 것입니다:
 
 - “이 변경은 텍스트인가, 구조인가?”
 - “사용자 입력이 포함되는가?”
-- “이 작업은 JS로 할까, 프레임워크에 맡길까?”
+- “class 기반으로 관리할 수 있는가?”
+- “선택한 요소에서 탐색이 필요한가?”
 
 ---
 
@@ -72,22 +103,23 @@ DOM 조작은 단순한 문법 문제가 아니라
 
 **In progress – DOM Manipulation**
 
-- Day 11–12 완료
-- 다음 단계: **Events & Interaction**
+- Day 11–14 완료
+- 다음 단계: **Events & Interaction** 또는 **DOM Mini Project**
 
 ---
 
-## 🔜 Next Topics
+## 🔜 Next Topics (Recommended)
 
-- `03_events/01_add_event_listener.js`
+- `03_events/01_add_event_listener.js` (이벤트 처리 기초)
 - 이벤트 전파 (bubbling / capturing)
-- 실전 UI 인터랙션 패턴
+- `dataset (data-*)` 활용 및 이벤트 위임 심화
+- DOM 기반 mini project (Todo / Filter / Tabs)
 
 ---
 
 ## 📌 요약 (한국어)
 
-- DOM 요소를 직접 생성·삭제·수정하는 핵심 방법 학습
-- 텍스트 변경과 HTML 구조 변경의 차이 명확히 이해
-- 프레임워크 이전 단계에서 반드시 필요한 DOM 기초 완성
-- 이후 이벤트 처리 및 인터랙션 학습을 위한 기반 마련
+- DOM 요소 생성/삭제/업데이트/스타일 변경을 실전 패턴으로 학습
+- `textContent` vs `innerHTML` 차이를 보안 관점에서 이해
+- `classList` 토글 기반 UI 제어로 “상태 기반” 사고 확립
+- parent/child/sibling/closest를 활용한 DOM 탐색 능력 확보
