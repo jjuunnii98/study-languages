@@ -1,98 +1,122 @@
-# DOM Events
+# DOM Events (JavaScript)
 
-This directory covers **core DOM event handling concepts** in JavaScript.
-Events are the foundation of interactive web applications:
+This directory covers **DOM event handling fundamentals and advanced patterns**
+used in modern front-end development.
 
-> **UI interaction = DOM events + event handlers + DOM updates**
+DOM events enable interaction between users and web pages.
+Understanding how events work is essential for building
+responsive, scalable, and maintainable user interfaces.
 
-본 디렉토리는 JavaScript에서 DOM 이벤트를 다루는 핵심 개념을 정리합니다.  
-이벤트는 “정적인 화면”을 “사용자와 상호작용하는 UI”로 바꾸는 기반입니다.
+본 디렉토리는 JavaScript에서 DOM 이벤트를 다루는
+기초 개념부터 실무에서 반드시 필요한 고급 패턴까지를 정리합니다.
 
 ---
 
 ## 🎯 Objectives
 
-- Understand how to attach event listeners with `addEventListener`
-- Learn how to use the **event object** to inspect context and targets
-- Master event propagation: **capturing → target → bubbling**
-- Control event flow using `preventDefault`, `stopPropagation`, and related patterns
-- Build strong fundamentals for **event delegation** (next step)
+- Understand how DOM events are triggered and handled
+- Learn the structure and role of the Event object
+- Master event propagation (capturing vs bubbling)
+- Apply event delegation for scalable UI design
+- Write robust event-handling code for real-world applications
 
 ---
 
 ## 📂 Files & Progress
 
-Each file represents a focused topic and is completed incrementally.
+Each file represents one daily learning milestone.
+Later topics build directly on earlier concepts.
 
 ### ✅ Day 15 — Event Listener Basics  
 **`01_event_listener.js`**
 
-- Register event handlers using `addEventListener`
-- Practice common event types: click, keyboard, mouse
-- Compare anonymous vs named handlers (removal-ready patterns)
+- 이벤트 리스너 등록 기본 구조
+- `addEventListener` 사용법
+- 클릭, 입력 등 기본 사용자 이벤트 처리
 
 **Key Concepts**
-- `addEventListener(type, handler)`
-- Multiple listeners on one element
-- Handler design for maintainability
+- Event-driven programming
+- Multiple listeners
+- Separation of logic and UI
 
 ---
 
 ### ✅ Day 16 — Event Object  
 **`02_event_object.js`**
 
-- Explore the `event` object and its practical usage
-- Understand `target` vs `currentTarget` clearly
-- Use event methods to control default behavior and propagation
+- Event 객체의 역할과 구조
+- `event.target` vs `event.currentTarget`
+- 이벤트 정보 접근 방법
 
 **Key Concepts**
-- `event.target` vs `event.currentTarget`
-- `event.type`, `event.timeStamp`
-- `preventDefault()`, `stopPropagation()`
+- Event metadata
+- Target resolution
+- Context-aware handlers
 
 ---
 
 ### ✅ Day 17 — Event Propagation  
 **`03_event_propagation.js`**
 
-- Learn the full DOM event flow:
-  - **Capturing → Target → Bubbling**
-- Use capture mode (`{ capture: true }` or `true`)
-- Stop event flow intentionally and understand side effects
+- 이벤트 전파 메커니즘 이해
+- Capturing phase vs Bubbling phase
+- `stopPropagation()`의 영향
 
 **Key Concepts**
-- Capturing vs Bubbling
-- `stopPropagation()`
-- `stopImmediatePropagation()`
+- Event flow
+- Bubbling default behavior
+- Controlled propagation
+
+---
+
+### ✅ Day 18 — Event Delegation  
+**`04_event_delegation.js`**
+
+- 이벤트 위임(Event Delegation) 패턴
+- 부모 요소 하나로 여러 자식 이벤트 처리
+- 동적 DOM 요소 처리 전략
+
+**Key Concepts**
+- Bubbling-based delegation
+- `event.target` + `closest()`
+- Performance and scalability
 
 ---
 
 ## 🧠 Why DOM Events Matter
 
-DOM events enable:
-- Buttons, forms, and user interactions
-- Dynamic UI updates
-- Data input validation
-- Complex UI patterns like lists, tables, and modals
+DOM event handling is central to:
+- Interactive UI development
+- Form handling and validation
+- Dynamic lists and tables
+- Performance-optimized front-end architecture
 
-Understanding event propagation is especially important because:
-- **event delegation** relies on bubbling
-- unexpected handler calls are often caused by propagation misunderstandings
+Poor event handling can lead to:
+- Memory leaks
+- Hard-to-maintain code
+- Performance bottlenecks
+
+Well-structured event logic leads to
+clean, scalable, and predictable UI behavior.
 
 ---
 
 ## 📌 한국어 요약
 
-- Day 15: `addEventListener`로 이벤트 리스너 등록 및 기본 패턴 학습
-- Day 16: event 객체 분석 (target/currentTarget, 기본 동작 차단 등)
-- Day 17: 이벤트 전파 흐름(캡처링/버블링) 이해 및 전파 제어
+- Day 15: 이벤트 리스너의 기본 구조와 사용법
+- Day 16: Event 객체와 이벤트 정보 접근
+- Day 17: 이벤트 전파(캡처링/버블링) 이해
+- Day 18: 이벤트 위임을 통한 확장 가능한 UI 설계
 
-이 단계까지 완료하면,
-다음 단계인 **이벤트 위임(event delegation)**을 실무 수준으로 구현할 수 있습니다.
+이 폴더는  
+**DOM 이벤트를 단순 사용이 아닌 “설계 관점”에서 다루는 단계**입니다.
 
 ---
 
 ## 🚧 Status
 
-**Completed (Day 15–17)**  
-Next recommended step: **Event Delegation** (handling many items efficiently)
+**Completed (Day 15–18)**  
+This module provides a solid foundation for:
+- Complex UI interactions
+- Dynamic DOM manipulation
+- Framework-level event handling (React, Vue, etc.)
