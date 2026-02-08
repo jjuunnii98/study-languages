@@ -1,112 +1,138 @@
 # Statistics (Python Libraries)
 
 This directory covers **core statistics concepts and practical implementations**
-for data analysis, machine learning, and research workflows.
+essential for data analysis, machine learning, and research workflows.
 
-It focuses on building statistical intuition and writing reproducible code for:
-- descriptive summaries
-- probability and distributions
-- hypothesis testing
-- confidence intervals and effect sizes
-- (optional) simulation-based validation
+Rather than focusing on formulas alone, this module emphasizes a **code-first,
+reproducible workflow**:
+
+> definition → computation → interpretation → validation
 
 본 디렉토리는 데이터 분석·머신러닝·연구에 필요한
-통계 개념을 **코드로 재현 가능한 형태**로 정리합니다.
-
-단순 공식 암기보다,
-**정의 → 계산 → 해석 → 재현(검증)** 흐름을 중심으로 구성합니다.
+통계 개념을 **실행 가능한 Python 코드**로 정리합니다.  
+공식 암기가 아니라, **분석 흐름과 해석 능력**을 기르는 데 목적이 있습니다.
 
 ---
 
 ## 🎯 Objectives
 
-- Summarize data using robust descriptive statistics
-- Understand distributions and uncertainty through simulation
-- Apply hypothesis tests with correct assumptions and interpretation
-- Report statistical results with effect sizes and confidence intervals
-- Build foundations for research-grade analysis (reproducibility)
+- Summarize data using descriptive and robust statistics
+- Understand randomness through distributions and sampling
+- Apply hypothesis testing with correct assumptions
+- Interpret p-values together with effect sizes
+- Build statistically sound, reproducible analysis pipelines
 
 ---
 
 ## 📂 Structure & Progress
 
-Each file represents a focused topic and can be studied independently.
+Each file represents one focused statistical topic.
 Files are completed incrementally with daily commits.
 
-각 파일은 하나의 통계 주제를 집중적으로 다루며,
-일일 학습 단위로 순차적으로 완성됩니다.
-
-### ✅ Completed
-
-- `01_descriptive_stats.py`  *(Day 34)*  
-  Descriptive statistics & robust summaries  
-  기술 통계 및 강건 요약(평균/중앙값/최빈값, 분산/표준편차, IQR, 절사평균, MAD)
-
-  **Key Concepts**
-  - Central tendency (mean/median/mode)
-  - Dispersion (variance/std/range)
-  - Robust stats (IQR, trimmed mean, MAD)
-  - Clean summary report + IQR outlier rule example
+각 파일은 하나의 통계 개념을 중심으로 구성되며,
+일일 학습 단위로 단계적으로 완성됩니다.
 
 ---
 
-### ⏳ Planned (Roadmap)
+### ✅ Day 34 — Descriptive Statistics  
+**`01_descriptive_stats.py`**
 
-- `02_probability_distributions.py`  
-  Common distributions (normal/binomial/poisson) + simulation  
-  주요 확률분포(정규/이항/포아송) + 시뮬레이션 기반 직관
+Descriptive and robust summaries of numerical data.
 
-- `03_sampling_clt.py`  
-  Sampling and Central Limit Theorem  
-  표본추출과 중심극한정리(CLT)
+**Key Concepts**
+- Central tendency: mean, median, mode
+- Dispersion: variance, standard deviation, range
+- Robust statistics: IQR, trimmed mean, MAD
+- Outlier detection using IQR rule
 
-- `04_confidence_intervals.py`  
-  Confidence intervals and uncertainty reporting  
-  신뢰구간과 불확실성 리포팅
+**Purpose**
+- Understand data shape before any modeling
+- Build intuition for variability and robustness
 
-- `05_hypothesis_testing_basics.py`  
-  t-test / chi-square / assumptions / interpretation  
-  가설검정 기초(가정, p-value 해석, 검정 선택)
+---
 
-- `06_effect_size_power.py`  
-  Effect size and statistical power (practical significance)  
-  효과크기와 검정력(실질적 유의성)
+### ✅ Day 35 — Distributions & Sampling  
+**`02_distributions_sampling.py`**
 
-- `07_bootstrap_permutation.py`  
-  Bootstrap & permutation tests (simulation-first)  
-  부트스트랩/퍼뮤테이션 검정(시뮬레이션 기반)
+Probability distributions and sampling-based intuition.
+
+**Key Concepts**
+- Random variables and probability distributions
+- Normal distribution and empirical behavior
+- Sampling variability and simulation
+- Law of Large Numbers (LLN)
+- Connection to Central Limit Theorem (CLT)
+
+**Purpose**
+- Develop intuition about randomness and uncertainty
+- Prepare foundations for inference and hypothesis testing
+
+---
+
+### ✅ Day 36 — Hypothesis Testing Basics  
+**`03_hypothesis_testing_basics.py`**
+
+Statistical hypothesis testing with interpretation and effect sizes.
+
+**Covered Tests**
+- One-sample mean test (normal approximation)
+- Two-sample Welch t-test (unequal variance)
+- Chi-square test of independence (2×2)
+- Permutation test (distribution-free validation)
+
+**Key Concepts**
+- Null vs alternative hypotheses
+- Test statistic and p-value interpretation
+- Effect sizes:
+  - Cohen’s d
+  - Hedges’ g
+  - Cramér’s V
+- Statistical vs practical significance
+
+**Purpose**
+- Move beyond “p < 0.05”
+- Interpret results in a research- and business-relevant way
 
 ---
 
 ## 🧠 Why Statistics Matters
 
 Statistics is the language of uncertainty.
-In real-world ML and analytics, you must:
+
+In real-world analytics and machine learning, you must:
 - quantify variability
-- validate results
-- avoid misleading conclusions
+- test assumptions
+- validate conclusions
 - communicate confidence and limitations
 
-통계는 “불확실성 하에서의 의사결정 언어”입니다.
-머신러닝과 데이터 분석에서 통계를 이해하면,
-결과를 더 신뢰 가능하게 만들고, 더 설득력 있게 설명할 수 있습니다.
+Without statistical reasoning,
+models can be misleading—even if technically correct.
+
+통계는 단순한 도구가 아니라  
+**불확실성 하에서 올바른 의사결정을 가능하게 하는 사고 체계**입니다.
 
 ---
 
 ## 📌 한국어 요약
 
-- Day 34: 기술 통계 + 강건 통계 지표로 데이터 요약 체계화
-- 이후: 확률분포 → 표본/CLT → 신뢰구간 → 가설검정 → 효과크기/검정력 → 시뮬레이션 기반 검정
+- Day 34: 기술 통계와 강건 통계로 데이터 요약
+- Day 35: 분포와 샘플링을 통한 확률 직관 형성
+- Day 36: 가설검정 + 효과크기 + 해석 중심 접근
 
 이 모듈은  
-**연구/실무에서 “통계적으로 올바른 분석”을 수행하기 위한 기반**입니다.
+**대학원 연구, 데이터 사이언스, ML 실무**를 위한
+통계적 사고의 기반을 제공합니다.
 
 ---
 
 ## 🚧 Status
 
-**In progress — Statistics (Day 34 started)**  
-This module is developed incrementally with daily commits.
+**Completed (Day 34–36)**  
 
-본 단계는 진행 중이며,
-통계 핵심 주제를 코드 기반으로 확장해 나갑니다.
+This module forms a complete introduction to
+statistical reasoning for data analysis and research,
+and serves as a foundation for:
+- regression analysis
+- experimental design
+- causal inference
+- advanced machine learning evaluation
