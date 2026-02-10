@@ -1,26 +1,27 @@
 # Time Series Analysis (SQL)
 
 This directory covers **time series analysis patterns** using SQL,
-focusing on how event-based data evolves over time.
+focusing on how event-based metrics evolve over time.
 
 Rather than treating time as a simple grouping key,
 this module emphasizes:
 - correct time bucketing
-- continuity of time
+- continuity of time (date spine)
 - prevention of temporal leakage
 - preparation for trend and growth analysis
 
 본 디렉토리는 SQL을 활용해  
-이벤트 데이터의 **시간적 변화 구조를 분석**하는 패턴을 다룹니다.
+이벤트/로그 기반 데이터의 **시간적 변화**를 분석하는 패턴을 다룹니다.
 
 ---
 
 ## 🎯 Objectives
 
 - Aggregate event data into stable time buckets (day / week / month)
-- Handle missing time intervals explicitly
+- Handle missing time intervals explicitly (zero-filled)
 - Normalize timestamps and manage time zones safely
-- Build reusable time-series metric tables
+- Build reusable time-series metric tables (BI-ready)
+- Smooth noise and extract trends using moving averages
 - Prepare foundations for rolling metrics and growth analysis
 
 ---
@@ -48,7 +49,7 @@ Aggregation of event data into continuous time buckets.
 - Zero-filling missing time buckets
 - Separation of business logic (e.g., revenue events)
 
-**Output Metrics**
+**Output Metrics (example)**
 - `bucket_date`
 - `event_count`
 - `active_users`
@@ -58,7 +59,31 @@ Aggregation of event data into continuous time buckets.
 
 **Purpose**
 - Create a clean, BI-ready daily metrics table
-- Serve as a base for rolling averages and growth calculations
+- Serve as the base for rolling averages and growth calculations
+
+---
+
+### ✅ Day 33 — Moving Average (Smoothing & Trend)  
+**`02_moving_average.sql`**
+
+Moving averages and rolling metrics using window functions.
+
+**Key Concepts**
+- Window frames with `ROWS BETWEEN ...` (explicit rolling window)
+- 7-day moving average (MA7) for daily smoothing
+- Rolling sums (e.g., 7-day rolling revenue)
+- Optional MA excluding “today” for monitoring
+- Recommended: compute on a continuous date spine to avoid bias
+
+**Outputs (example)**
+- Raw metrics: `dau`, `revenue`
+- Smoothed metrics: `dau_ma7`, `dau_ma28`, `revenue_ma7`, `revenue_ma28`
+- Rolling metrics: `revenue_roll7_sum`
+- Comparison: `dau_minus_ma7`, `dau_vs_trend`
+
+**Purpose**
+- Separate trend from noise
+- Prepare signals for growth analysis (WoW/MoM) and anomaly checks
 
 ---
 
@@ -68,15 +93,15 @@ Most real-world analytics questions are time-based:
 
 - Are users becoming more active over time?
 - Is revenue growing or stagnating?
-- Do recent changes reflect trends or noise?
+- Did a product change create a real trend or just noise?
 
 Incorrect handling of time can cause:
 - misleading trends
 - hidden seasonality
-- severe data leakage
+- severe data leakage (training on future information)
 
-Time series analysis enforces **causal order** and
-ensures that insights reflect real temporal behavior.
+Time series analysis enforces **temporal order**
+and ensures insights reflect real behavior.
 
 시계열 분석은 단순 집계가 아니라  
 **시간 흐름을 존중하는 분석 규칙**입니다.
@@ -85,13 +110,12 @@ ensures that insights reflect real temporal behavior.
 
 ## 📌 한국어 요약
 
-- Day 32: 시간 버킷 기반 집계의 표준 패턴 정리
-- 날짜 연속성(date spine)을 통한 누락 구간 처리
-- 타임존과 기간 경계를 명시적으로 관리
-- 이후 rolling, WoW/MoM, 누적 지표 분석의 기반 구축
+- Day 32: 시간 버킷 기반 집계 + 날짜 연속성(date spine) + 누락 구간 0 처리
+- Day 33: 이동평균(MA)과 rolling 지표로 추세(trend) 추출
+- 다음 단계(WoW/MoM, 누적 지표, 이상탐지)로 확장 가능한 기반 완성
 
 이 폴더는  
-**실무용 시계열 SQL 분석 템플릿의 출발점**입니다.
+**실무용 시계열 SQL 분석 템플릿**을 단계적으로 구축하는 모듈입니다.
 
 ---
 
@@ -100,7 +124,7 @@ ensures that insights reflect real temporal behavior.
 **In progress — Time Series Analysis**
 
 Next recommended topics:
-- Moving averages and rolling windows
-- Week-over-week / Month-over-month growth
-- Lag-based comparisons
-- Trend and seasonality detection
+- Week-over-week / Month-over-month growth using `LAG()`
+- Cumulative metrics (running totals)
+- Seasonality patterns and calendar effects
+- Simple anomaly detection rules (z-score, MAD-based)
