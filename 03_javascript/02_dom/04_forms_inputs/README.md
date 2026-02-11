@@ -1,98 +1,120 @@
-# Forms & Inputs (JavaScript DOM)
+# Forms & Inputs (DOM)
 
-This directory covers **form and input handling patterns** in vanilla JavaScript.
-Forms are one of the most common UI surfaces in real-world applications,
-and correct handling requires both **technical accuracy** and **robust UX design**.
+This directory covers **core form and input handling patterns** in the browser
+using JavaScript DOM APIs.
 
-본 디렉토리는 JavaScript DOM 환경에서 폼과 입력값을 다루는
-실무 패턴을 정리합니다.  
-폼 처리는 단순 이벤트 처리 수준이 아니라,
-**값 추출 → 검증 → 제출 제어 → 피드백**까지 포함하는 핵심 UI 로직입니다.
+Forms are where user interaction becomes real data:
+- input values
+- validation
+- submit control
+- UI feedback for errors/success
+
+본 디렉토리는 브라우저 환경에서 JavaScript로
+폼(Form)과 입력값(Input)을 다루는 핵심 패턴을 정리합니다.
 
 ---
 
 ## 🎯 Objectives
 
-- Read and write input values reliably across input types
-- Understand `input` vs `change` events for form state updates
-- Prevent default form submission and control submission flow
-- Validate user inputs and construct clean payloads
-- Provide UI feedback (error/success) in a predictable way
+- Read and normalize user input values safely
+- Handle form submissions with proper event control
+- Prevent default browser submit behavior when needed
+- Implement basic client-side validation
+- Provide user-friendly feedback messages (error/success)
 
 ---
 
-## 📂 Files & Progress
+## 📂 Structure & Progress
 
-Each file represents one daily learning milestone.
-Later steps build directly on earlier input-handling fundamentals.
+Each file represents one practical topic.
+Files are completed incrementally with daily commits.
+
+각 파일은 실무에서 자주 쓰는 주제 하나를 다루며,
+일일 학습 단위로 순차적으로 완성됩니다.
+
+---
+
+## ✅ Completed
 
 ### ✅ Day 19 — Input Value Handling  
 **`01_input_value_handling.js`**
 
-- Read/write values from:
-  - text input, textarea, select
-  - checkbox, radio
-- Track changes via `input` and `change` events
-- Safely parse numeric values and handle empty inputs
-- Structure input logic into reusable read/write helpers
-
 **Key Concepts**
-- `value` vs `checked`
-- `event.target` / `closest()` (conceptual connection)
-- `input` (real-time) vs `change` (commit) event differences
-- Building a clean JS state object from DOM inputs
+- `value`, `checked`, `selectedIndex`
+- `trim()` for normalization
+- Input type differences (text / checkbox / select)
+
+**Purpose**
+- Convert user input into clean, usable data
 
 ---
 
-### ✅ Day 20 — Prevent Default Submit  
+### ✅ Day 20 — Form Submit Control  
 **`02_form_submit_prevent.js`**
 
-- Fully control form submission via `event.preventDefault()`
-- Validate inputs before action
-- Build a standardized payload object for APIs/logging
-- Provide success/error feedback to the user
+**Key Concepts**
+- `submit` event
+- `event.preventDefault()`
+- Controlled form submission flow
+
+**Purpose**
+- Prevent unintended submits and build predictable submission logic
+
+---
+
+### ✅ Day 21 — Basic Validation  
+**`03_validation_basic.js`**
 
 **Key Concepts**
-- `submit` event control
-- Validation → Payload → Action workflow
-- Defensive coding (null/empty/invalid values)
-- Reset behavior after submission
+- Required checks (empty input)
+- Basic format validation (email regex example)
+- Rule-based validation (password length)
+- Error collection pattern (`errors[]`)
+- UI feedback rendering (error/success)
+
+**Purpose**
+- Validate form inputs before submitting
+- Improve user experience with immediate feedback
 
 ---
 
 ## 🧠 Why Forms & Inputs Matter
 
-Forms are critical for:
-- Authentication and onboarding flows
-- Payments and subscription journeys
-- Settings and profile management
-- Data collection and admin tools
+Forms are the gateway between users and systems.
 
-Poor form handling leads to:
-- Incorrect data capture
-- UX friction and drop-offs
-- Fragile code that breaks with small UI changes
+Even a simple app needs to handle:
+- clean input normalization
+- validation rules
+- safe submission flow
+- user-friendly messaging
 
-Well-structured form logic improves both:
-- Data quality
-- Product conversion metrics
+Without proper form handling:
+- data quality becomes unreliable
+- UX becomes frustrating
+- errors propagate to backend systems
+
+폼 처리는 프론트엔드 개발의 기본기이자,
+데이터 품질과 사용자 경험을 동시에 결정하는 핵심 요소입니다.
 
 ---
 
 ## 📌 한국어 요약
 
-- Day 19: 다양한 입력 타입의 값 추출/반영 + 이벤트 기반 상태 업데이트
-- Day 20: submit 기본 동작 차단 + 검증(validation) + payload 구성 + UI 피드백
+- Day 19: 입력값을 읽고 정규화하는 패턴
+- Day 20: submit 이벤트 제어 및 기본 제출 방지
+- Day 21: 기본 검증(필수값/형식/룰) 및 사용자 피드백 출력
 
-이 폴더는  
-**“폼을 단순 HTML 요소가 아니라, 데이터 처리 파이프라인으로 다루는 방식”**을 정리합니다.
+이 폴더는
+**폼 입력 → 제출 제어 → 검증 → 피드백**의 표준 흐름을 제공합니다.
 
 ---
 
 ## 🚧 Status
 
-**Completed (Day 19–20)**  
-Next recommended steps:
-- Validation patterns (field-level / form-level, reusable validators)
-- Async submit (fetch API integration, loading state, error handling)
-- Accessibility and UX improvements (focus management, aria attributes)
+**In progress — Forms & Inputs**
+
+Next recommended topics:
+- Real-time validation (`input` event + debounce)
+- Advanced validation rules (password strength, custom validators)
+- Async validation (API-based checks)
+- Accessibility-friendly error messaging
