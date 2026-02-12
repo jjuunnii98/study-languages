@@ -96,17 +96,32 @@ Choosing the wrong metric leads to wrong decisions.
 - Ridge (L2 Regularization)
 
 **Key Concepts**
-- Coefficient interpretation
-- Intercept meaning
-- Regularization to prevent overfitting
-- Linear decision boundaries
+- coefficient / intercept interpretation
+- regularization intuition
+- linear decision boundaries
 
 **Why it matters**
-Linear models are:
-- Interpretable
-- Fast
-- Strong baselines
-- Foundational for advanced ML
+Linear models are interpretable, fast, and strong baselines.
+
+---
+
+### ✅ Day 40 — Tree Models  
+**`04_tree_models.py`**
+
+**Focus**
+- Tree-based models for non-linear patterns and interactions
+
+**Models Covered**
+- Decision Tree (classification)
+- Random Forest (ensemble)
+
+**Key Concepts**
+- overfitting control (`max_depth`, `min_samples_leaf`)
+- ensemble intuition (variance reduction)
+- feature importance (basic interpretation + caveats)
+
+**Why it matters**
+Tree models provide strong non-linear baselines and practical interpretability tools.
 
 ---
 
@@ -138,7 +153,8 @@ These fundamentals form the foundation for:
 
 - Day 37: 올바른 Train/Test 분리
 - Day 38: 분류·회귀 평가 지표 이해
-- Day 39: 선형 모델을 활용한 베이스라인 구축
+- Day 39: 선형 모델 기반 베이스라인 구축
+- Day 40: 트리/앙상블 기반 비선형 베이스라인 구축
 
 이 폴더는  
 **ML 실험의 기초 체력**을 만드는 단계입니다.
@@ -151,8 +167,8 @@ These fundamentals form the foundation for:
 
 Next recommended steps:
 
-- ROC-AUC & Precision-Recall Curve
+- ROC-AUC & Precision-Recall Curve (threshold analysis)
 - Cross Validation (KFold / StratifiedKFold)
-- Pipeline construction
+- Pipeline construction (preprocessing + model)
 - Model comparison template
-- Regularization deep dive
+- Hyperparameter tuning (GridSearchCV / RandomizedSearchCV)
