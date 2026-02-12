@@ -1,104 +1,121 @@
-# Machine Learning Basics (Python)
+# ML Basics (Python Libraries)
 
-This directory covers **fundamental machine learning workflow principles**
-that must be understood *before* applying any model or algorithm.
+This directory covers **machine learning fundamentals** using Python libraries
+(mainly scikit-learn).  
+The goal is to build correct ML workflows that are:
 
-Rather than starting with models, this module focuses on:
-- correct data splitting
-- experimental design
-- evaluation integrity
-- prevention of data leakage
+- reproducible
+- evaluation-driven
+- aligned with real-world modeling practice
 
-본 디렉토리는 머신러닝 알고리즘 이전에 반드시 이해해야 하는  
-**데이터 분리, 검증 설계, 재현성 확보**의 기초를 다룹니다.
+본 디렉토리는 scikit-learn을 중심으로
+머신러닝의 핵심 기초를 **워크플로우 관점**에서 정리합니다.
 
-좋은 모델 성능은 알고리즘보다  
-**데이터를 어떻게 나누고 검증했는지**에 의해 결정됩니다.
+단순히 모델을 돌리는 것이 아니라,
+- 데이터 분리
+- 평가 지표
+- 검증
+을 통해 “올바른 실험”을 수행하는 것을 목표로 합니다.
 
 ---
 
 ## 🎯 Objectives
 
-- Understand why data must be split into train/test sets
-- Prevent common data leakage scenarios
-- Handle class imbalance correctly using stratification
-- Respect temporal order in time-series data
-- Avoid group-level leakage (patient/user/session level)
-- Build reproducible machine learning experiments
+- Split data properly to avoid leakage
+- Evaluate models with correct metrics for the task
+- Understand why evaluation matters more than model choice
+- Build ML baselines that can extend to advanced topics (CV, pipelines, tuning)
 
 ---
 
 ## 📂 Structure & Progress
 
-Each file represents a core concept in ML experiment design.
+Each file represents one essential ML workflow step.
 Files are completed incrementally with daily commits.
 
-각 파일은 머신러닝 실험 설계의 핵심 개념 하나를 다루며,  
-일일 학습 단위로 점진적으로 완성됩니다.
+각 파일은 ML 워크플로우의 필수 단계를 하나씩 다루며,
+일일 학습 단위로 순차적으로 완성됩니다.
 
 ---
 
-### ✅ Day 37 — Train / Test Split  
+## ✅ Completed
+
+### ✅ Day 37 — Train/Test Split  
 **`01_train_test_split.py`**
 
-Best practices for splitting data into training and testing sets.
-
-**Covered Scenarios**
-- Random split with shuffle and reproducibility
-- Stratified split for classification imbalance
-- Time series split (no shuffle)
-- Group-aware split (avoid entity leakage)
+**Focus**
+- Correct dataset split strategy to evaluate generalization performance
 
 **Key Concepts**
-- Data leakage and why it invalidates evaluation
-- `random_state` for reproducibility
-- When *not* to shuffle data
-- Why group-level separation matters in real-world datasets
+- `train_test_split`
+- random seed & reproducibility
+- stratification (when classification is imbalanced)
+- avoiding data leakage
 
-**Purpose**
-- Ensure fair and reliable model evaluation
-- Build experiments that can be trusted and reproduced
-- Lay the foundation for cross-validation and model comparison
+**Why it matters**
+- Without a proper split, “good performance” can be fake.
+
+---
+
+### ✅ Day 38 — Metrics Basics  
+**`02_metrics_basics.py`**
+
+**Focus**
+- Core evaluation metrics for classification and regression
+
+**Classification Metrics**
+- Accuracy
+- Precision / Recall
+- F1-score
+- Confusion Matrix
+
+**Regression Metrics**
+- MSE / RMSE
+- MAE
+- R² (coefficient of determination)
+
+**Why it matters**
+- Model evaluation is not optional.
+- Choosing the wrong metric can lead to wrong decisions.
 
 ---
 
 ## 🧠 Why ML Basics Matter
 
-Many machine learning failures are not caused by poor models,
-but by **incorrect experimental design**.
+Machine learning is an experimental discipline.  
+The same model can look “great” or “bad” depending on:
 
-Common pitfalls include:
-- training on future information
-- leaking user or patient identity across splits
-- evaluating on data seen during training
-- misrepresenting class distributions
+- how the data was split
+- which metric was used
+- whether leakage occurred
 
-Understanding these basics ensures that:
-- reported performance is meaningful
-- results generalize to real-world data
-- conclusions are scientifically defensible
+These basics form the foundation for:
+- cross validation
+- pipelines
+- hyperparameter tuning
+- model comparison and deployment
 
-머신러닝의 신뢰성은  
-모델보다 **실험 설계의 정확성**에서 시작됩니다.
+머신러닝은 결국 **실험 설계(Experiment Design)** 입니다.  
+기초가 흔들리면 이후 단계(CV, 튜닝, 파이프라인)가 모두 무너집니다.
 
 ---
 
 ## 📌 한국어 요약
 
-- Day 37: 다양한 데이터 특성에 맞는 train/test 분리 전략 정리
-- 데이터 누수(leakage) 방지의 중요성 이해
-- 분류, 시계열, 그룹 데이터에 대한 분리 기준 확립
+- Day 37: Train/Test 분리로 일반화 성능 평가 기반 구축
+- Day 38: 분류/회귀 평가 지표의 핵심 개념 정리
 
-이 모듈은  
-**머신러닝 모델링 이전 단계에서 반드시 필요한 실험 설계 기초**를 제공합니다.
+이 폴더는  
+**ML을 “돌리는 것”이 아니라 “검증하는 것”** 에 초점을 둡니다.
 
 ---
 
 ## 🚧 Status
 
-**In progress — Machine Learning Basics (Day 37 started)**
+**In progress — ML Basics**
 
 Next recommended topics:
-- Cross-validation (KFold, StratifiedKFold, GroupKFold, TimeSeriesSplit)
-- Model evaluation metrics (accuracy vs ROC-AUC vs RMSE)
-- Baseline models and sanity checks
+- ROC-AUC & PR curve (classification threshold analysis)
+- Cross Validation (KFold / StratifiedKFold)
+- Model comparison template
+- Pipelines (preprocessing + model)
