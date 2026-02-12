@@ -1,59 +1,63 @@
 # ML Basics (Python Libraries)
 
-This directory covers **machine learning fundamentals** using Python libraries
-(mainly scikit-learn).  
-The goal is to build correct ML workflows that are:
+This directory covers **core machine learning workflow fundamentals**
+using Python libraries (mainly scikit-learn).
 
-- reproducible
-- evaluation-driven
-- aligned with real-world modeling practice
+The goal is not just to “train models,”  
+but to design **correct, reproducible, and evaluation-driven experiments**.
 
-본 디렉토리는 scikit-learn을 중심으로
-머신러닝의 핵심 기초를 **워크플로우 관점**에서 정리합니다.
+본 디렉토리는 scikit-learn을 중심으로  
+머신러닝의 핵심 기초를 **워크플로우 중심**으로 정리합니다.
 
-단순히 모델을 돌리는 것이 아니라,
+모델을 단순히 돌리는 것이 아니라,
+
 - 데이터 분리
-- 평가 지표
-- 검증
-을 통해 “올바른 실험”을 수행하는 것을 목표로 합니다.
+- 평가 지표 선택
+- 모델 학습
+- 해석 가능성
+
+을 체계적으로 이해하는 것을 목표로 합니다.
 
 ---
 
 ## 🎯 Objectives
 
-- Split data properly to avoid leakage
-- Evaluate models with correct metrics for the task
-- Understand why evaluation matters more than model choice
-- Build ML baselines that can extend to advanced topics (CV, pipelines, tuning)
+- Split data properly to prevent leakage
+- Choose correct evaluation metrics for each task
+- Build interpretable baseline models
+- Understand the importance of experiment design
+- Prepare for advanced topics (CV, pipelines, tuning)
 
 ---
 
-## 📂 Structure & Progress
+# 📂 Structure & Progress
 
-Each file represents one essential ML workflow step.
+Each file represents one essential ML workflow step.  
 Files are completed incrementally with daily commits.
 
-각 파일은 ML 워크플로우의 필수 단계를 하나씩 다루며,
-일일 학습 단위로 순차적으로 완성됩니다.
+각 파일은 머신러닝 워크플로우의 핵심 단계를 다루며,  
+일일 학습 단위로 확장됩니다.
 
 ---
 
 ## ✅ Completed
 
+---
+
 ### ✅ Day 37 — Train/Test Split  
 **`01_train_test_split.py`**
 
 **Focus**
-- Correct dataset split strategy to evaluate generalization performance
+- Proper dataset splitting for generalization evaluation
 
 **Key Concepts**
 - `train_test_split`
 - random seed & reproducibility
-- stratification (when classification is imbalanced)
+- stratified splitting
 - avoiding data leakage
 
 **Why it matters**
-- Without a proper split, “good performance” can be fake.
+Without correct splitting, model performance is meaningless.
 
 ---
 
@@ -65,48 +69,79 @@ Files are completed incrementally with daily commits.
 
 **Classification Metrics**
 - Accuracy
-- Precision / Recall
+- Precision
+- Recall
 - F1-score
 - Confusion Matrix
 
 **Regression Metrics**
 - MSE / RMSE
 - MAE
-- R² (coefficient of determination)
+- R²
 
 **Why it matters**
-- Model evaluation is not optional.
-- Choosing the wrong metric can lead to wrong decisions.
+Choosing the wrong metric leads to wrong decisions.
 
 ---
 
-## 🧠 Why ML Basics Matter
+### ✅ Day 39 — Linear Models  
+**`03_linear_models.py`**
 
-Machine learning is an experimental discipline.  
+**Focus**
+- Fundamental baseline models for regression and classification
+
+**Models Covered**
+- Linear Regression
+- Logistic Regression
+- Ridge (L2 Regularization)
+
+**Key Concepts**
+- Coefficient interpretation
+- Intercept meaning
+- Regularization to prevent overfitting
+- Linear decision boundaries
+
+**Why it matters**
+Linear models are:
+- Interpretable
+- Fast
+- Strong baselines
+- Foundational for advanced ML
+
+---
+
+# 🧠 Why ML Basics Matter
+
+Machine learning is an experimental discipline.
+
 The same model can look “great” or “bad” depending on:
 
 - how the data was split
 - which metric was used
 - whether leakage occurred
+- whether the baseline was properly defined
 
-These basics form the foundation for:
-- cross validation
-- pipelines
-- hyperparameter tuning
-- model comparison and deployment
+이 단계는  
+**ML을 ‘모델 선택’이 아니라 ‘실험 설계’로 이해하는 과정**입니다.
 
-머신러닝은 결국 **실험 설계(Experiment Design)** 입니다.  
-기초가 흔들리면 이후 단계(CV, 튜닝, 파이프라인)가 모두 무너집니다.
+These fundamentals form the foundation for:
+
+- Cross Validation
+- Model comparison frameworks
+- Pipelines
+- Hyperparameter tuning
+- Production ML systems
 
 ---
 
 ## 📌 한국어 요약
 
-- Day 37: Train/Test 분리로 일반화 성능 평가 기반 구축
-- Day 38: 분류/회귀 평가 지표의 핵심 개념 정리
+- Day 37: 올바른 Train/Test 분리
+- Day 38: 분류·회귀 평가 지표 이해
+- Day 39: 선형 모델을 활용한 베이스라인 구축
 
 이 폴더는  
-**ML을 “돌리는 것”이 아니라 “검증하는 것”** 에 초점을 둡니다.
+**ML 실험의 기초 체력**을 만드는 단계입니다.
 
 ---
 
@@ -114,8 +149,10 @@ These basics form the foundation for:
 
 **In progress — ML Basics**
 
-Next recommended topics:
-- ROC-AUC & PR curve (classification threshold analysis)
+Next recommended steps:
+
+- ROC-AUC & Precision-Recall Curve
 - Cross Validation (KFold / StratifiedKFold)
+- Pipeline construction
 - Model comparison template
-- Pipelines (preprocessing + model)
+- Regularization deep dive
