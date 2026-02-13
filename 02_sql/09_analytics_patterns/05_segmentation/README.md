@@ -1,223 +1,123 @@
-# Segmentation (SQL)
+# Segmentation Analysis (SQL)
 
-This directory covers **practical user segmentation patterns** using SQL.
+This directory covers **user segmentation analytics patterns** using SQL.  
+Segmentation transforms raw behavioral data into structured user groups  
+that support marketing, product, and revenue decisions.
 
-Segmentation answers a core analytics question:
+> “Not all users are equal. Segmentation quantifies those differences.”
 
-> **“Which users behave differently, and how should we group them for decisions?”**
-
-Segmentation is not just labeling.
-It is a decision framework that supports:
-- targeting (CRM / marketing)
-- product personalization
-- retention strategy
-- risk monitoring and alerts
-- KPI reporting by segment
-
-본 디렉토리는 SQL로 **사용자/고객 세그먼트**를 정의하는 실전 패턴을 다룹니다.
-
-세그먼테이션의 핵심 질문은 다음입니다:
-
-> **“행동이 다른 사용자들을 어떻게 그룹화해서 의사결정에 활용할 것인가?”**
-
-세그먼트는 단순 분류가 아니라,
-타겟팅/리텐션/리스크 관리/지표 보고를 위한 **의사결정 단위**입니다.
+본 디렉토리는 SQL을 활용해  
+유저를 행동 기반으로 분류하고,  
+그 세그먼트를 KPI와 연결하는 전체 분석 흐름을 다룹니다.
 
 ---
 
 ## 🎯 Objectives
 
-- Define segments with reproducible SQL rules (not “black box” labels)
-- Build snapshot-based segmentation tables (`as_of_date`)
-- Use RFM-style signals: Recency / Frequency / Monetary
-- Store supporting metrics for validation and future threshold tuning
-- Enable downstream analysis by joining segments to KPI tables
+- Define meaningful user segments based on behavior
+- Apply RFM-style logic (Recency, Frequency, Monetary)
+- Quantify segment-level performance metrics
+- Bridge user grouping with business KPIs
+- Build reusable SQL templates for analytics pipelines
 
 ---
 
 ## 📂 File Structure & Progress
 
-Each file represents one analytical step.
-Later steps build directly on earlier definitions.
-
-각 파일은 하나의 분석 단계를 담당하며,
-이전 단계의 정의를 기반으로 확장됩니다.
+Each file represents a key analytical step.
 
 ---
 
-## ✅ Completed
-
-### ✅ Day 35 — Segment Definition (Rule-based + RFM)
+## ✅ Day 35 — Segment Definition  
 **`01_segment_definition.sql`**
 
-**Purpose**
-- Create a reusable segmentation output table/view:
-  `user_id, segment, as_of_date, recency_days, frequency_90d, monetary_90d`
+Defines user segments using behavioral metrics.
 
-**Key Concepts**
-- Snapshot-based segmentation using `as_of_date`
-- RFM-like metrics:
-  - Recency: days since last purchase/activity
-  - Frequency: purchase count in last 90 days
-  - Monetary: revenue in last 90 days
-- Rule-based segment assignment via `CASE`
-  - `new_or_active`
-  - `vip`
-  - `repeat_buyer`
-  - `at_risk`
-  - `inactive`
+### Analytical Logic
 
-**Why it matters**
-- Rule-based segmentation is explainable:
-  “Why is this user VIP?” can be answered directly.
-- Storing metrics makes it easy to tune thresholds later.
+- **Recency** → 최근 활동 시점
+- **Frequency** → 최근 90일 활동 빈도
+- **Monetary** → 최근 90일 매출
+
+### Example Segments
+
+- `vip`  
+- `loyal`  
+- `at_risk`  
+- `inactive`  
+
+### Output
+
+`user_segments`
+
+| user_id | segment | as_of_date | recency_days | frequency_90d | monetary_90d |
+|----------|----------|------------|--------------|---------------|--------------|
+
+---
+
+## ✅ Day 36 — Segment Metrics  
+**`02_segment_metrics.sql`**
+
+Transforms segments into decision-ready KPIs.
+
+### Metrics Computed
+
+- users
+- active_users_30d
+- purchasers_90d
+- purchases_90d
+- revenue_90d
+- avg_recency_days
+- purchase_rate_pct
+- arpu_90d
+- arppu_90d
+
+### Analytical Importance
+
+This step answers:
+
+- Which segment drives revenue?
+- Which segment is deteriorating?
+- Which segment deserves targeted campaigns?
+
+### Output
+
+Segment-level KPI table:
+
+| segment | users | revenue_90d | purchase_rate_pct | arpu_90d | arppu_90d |
 
 ---
 
 ## 🧠 Why Segmentation Matters
 
-Average metrics hide important user behavior differences.
+Segmentation is not just grouping —  
+it is a **strategic abstraction layer** between raw data and business decisions.
 
-Segmentation enables:
-- targeted retention campaigns (e.g., at-risk users)
-- prioritizing high-value users (VIP)
-- measuring KPI changes by segment
-- building “risk-aware” monitoring rules
+- Marketing → Target high-value users
+- Product → Identify retention risk
+- Finance → Forecast revenue contribution
+- Growth → Optimize lifecycle campaigns
 
-평균 지표는 중요한 차이를 숨깁니다.
-
-세그먼테이션을 하면:
-- 이탈 위험군(at_risk) 대상 캠페인
-- VIP 우선순위 관리
-- 세그먼트별 KPI 비교
-- 리스크 기반 모니터링 룰 구축
-이 가능해집니다.
+Without segmentation, analytics remains descriptive.  
+With segmentation, analytics becomes actionable.
 
 ---
 
-## 🚀 Next (Recommended)
+## 📌 한국어 요약
 
-Suggested next steps for this module:
+- Day 35: 행동 기반 세그먼트 정의 (RFM 로직)
+- Day 36: 세그먼트별 KPI 계산 및 리포트 구조화
+- 세그먼트는 단순 분류가 아니라, 의사결정 프레임워크이다.
 
-- Segment KPI summary (ARPU, conversion, retention by segment)
-- Transition matrix (segment movement over time)
-- Behavioral clustering (optional): compare rule-based vs clustering-based segments
-- Dashboard-ready outputs for BI tools
+이 폴더는  
+**행동 데이터 → 세그먼트 → KPI → 전략 실행**  
+으로 이어지는 SQL 분석 패턴 템플릿이다.
 
 ---
 
 ## 🚧 Status
 
-**In progress — Segmentation (Day 35 completed)**  
-This module will expand into segment KPI reporting and time-based transitions.# Segmentation (SQL)
+Completed (Day 35–36)
 
-This directory covers **practical user segmentation patterns** using SQL.
-
-Segmentation answers a core analytics question:
-
-> **“Which users behave differently, and how should we group them for decisions?”**
-
-Segmentation is not just labeling.
-It is a decision framework that supports:
-- targeting (CRM / marketing)
-- product personalization
-- retention strategy
-- risk monitoring and alerts
-- KPI reporting by segment
-
-본 디렉토리는 SQL로 **사용자/고객 세그먼트**를 정의하는 실전 패턴을 다룹니다.
-
-세그먼테이션의 핵심 질문은 다음입니다:
-
-> **“행동이 다른 사용자들을 어떻게 그룹화해서 의사결정에 활용할 것인가?”**
-
-세그먼트는 단순 분류가 아니라,
-타겟팅/리텐션/리스크 관리/지표 보고를 위한 **의사결정 단위**입니다.
-
----
-
-## 🎯 Objectives
-
-- Define segments with reproducible SQL rules (not “black box” labels)
-- Build snapshot-based segmentation tables (`as_of_date`)
-- Use RFM-style signals: Recency / Frequency / Monetary
-- Store supporting metrics for validation and future threshold tuning
-- Enable downstream analysis by joining segments to KPI tables
-
----
-
-## 📂 File Structure & Progress
-
-Each file represents one analytical step.
-Later steps build directly on earlier definitions.
-
-각 파일은 하나의 분석 단계를 담당하며,
-이전 단계의 정의를 기반으로 확장됩니다.
-
----
-
-## ✅ Completed
-
-### ✅ Day 35 — Segment Definition (Rule-based + RFM)
-**`01_segment_definition.sql`**
-
-**Purpose**
-- Create a reusable segmentation output table/view:
-  `user_id, segment, as_of_date, recency_days, frequency_90d, monetary_90d`
-
-**Key Concepts**
-- Snapshot-based segmentation using `as_of_date`
-- RFM-like metrics:
-  - Recency: days since last purchase/activity
-  - Frequency: purchase count in last 90 days
-  - Monetary: revenue in last 90 days
-- Rule-based segment assignment via `CASE`
-  - `new_or_active`
-  - `vip`
-  - `repeat_buyer`
-  - `at_risk`
-  - `inactive`
-
-**Why it matters**
-- Rule-based segmentation is explainable:
-  “Why is this user VIP?” can be answered directly.
-- Storing metrics makes it easy to tune thresholds later.
-
----
-
-## 🧠 Why Segmentation Matters
-
-Average metrics hide important user behavior differences.
-
-Segmentation enables:
-- targeted retention campaigns (e.g., at-risk users)
-- prioritizing high-value users (VIP)
-- measuring KPI changes by segment
-- building “risk-aware” monitoring rules
-
-평균 지표는 중요한 차이를 숨깁니다.
-
-세그먼테이션을 하면:
-- 이탈 위험군(at_risk) 대상 캠페인
-- VIP 우선순위 관리
-- 세그먼트별 KPI 비교
-- 리스크 기반 모니터링 룰 구축
-이 가능해집니다.
-
----
-
-## 🚀 Next (Recommended)
-
-Suggested next steps for this module:
-
-- Segment KPI summary (ARPU, conversion, retention by segment)
-- Transition matrix (segment movement over time)
-- Behavioral clustering (optional): compare rule-based vs clustering-based segments
-- Dashboard-ready outputs for BI tools
-
----
-
-## 🚧 Status
-
-**In progress — Segmentation (Day 35 completed)**  
-This module will expand into segment KPI reporting and time-based transitions.
+This module forms a reusable segmentation framework  
+for marketing analytics, product analytics, and revenue intelligence.
