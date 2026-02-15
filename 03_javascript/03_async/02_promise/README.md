@@ -1,104 +1,115 @@
-# Promise (JavaScript Async — Step 2)
+# Promise Architecture (JavaScript Async — Step 2)
 
-This directory covers **Promise-based asynchronous control flow**
-in JavaScript.
+This module explores **Promise-based asynchronous system design**
+in modern JavaScript.
 
-It moves beyond basic syntax and focuses on:
+Rather than focusing on syntax alone, this section treats Promise as:
 
-- State transitions
-- Sequential chaining
-- Error propagation
-- Clean async pipeline design
+- A deterministic state machine
+- A failure propagation mechanism
+- A composable async pipeline abstraction
+- A concurrency coordination primitive
 
-콜백 기반 비동기 구조의 한계를 해결하는 Promise 패턴을
-문법 수준을 넘어 “설계 관점”에서 다룹니다.
+콜백 기반 비동기 구조의 한계를 해결하는 Promise 패턴을  
+문법 수준이 아닌 **아키텍처(architecture) 관점**에서 다룹니다.
 
-This module bridges:
-Callback → Promise → async/await
+This module forms the structural bridge:
+
+Callback → Promise → async / await
 
 ---
 
-## 🎯 Learning Objectives
+## 🎯 Core Learning Objectives
 
-- Understand Promise state transitions
-- Use resolve / reject properly
-- Design clean `.then()` chains
-- Handle errors centrally using `.catch()`
-- Understand value vs Promise returns
-- Build maintainable async pipelines
+By completing this module, you will:
+
+- Understand Promise as a state machine (`pending → fulfilled / rejected`)
+- Model asynchronous flow deterministically
+- Design sequential async pipelines using `.then()`
+- Centralize failure handling using `.catch()`
+- Differentiate between returning values and returning Promises
+- Architect composable async flows
+- Apply concurrency control (`all`, `race`, `allSettled`, `any`)
 - Prepare for async/await refactoring
 
 ---
 
-## 📂 Files & Progress
+## 📂 Implementation Progress
 
-### ✅ Day 26 — Promise Basics  
+### ✅ Day 26 — Promise Fundamentals  
 `01_promise_basics.js`
 
-Covers:
+**Focus: State & Lifecycle**
 
-- Promise constructor mechanics
-- pending → fulfilled / rejected states
+- Promise constructor internals
+- State transitions
 - `.then()` / `.catch()` / `.finally()`
-- Basic chaining
-- Error propagation model
+- Error bubbling model
 
-한국어 요약:
-
-- Promise 상태 구조 이해
-- resolve / reject 흐름
-- 체이닝의 기본 원리
-- 에러 전파 모델 이해
+**Architectural Insight:**
+Promise enforces a one-time immutable state transition,  
+making async flows predictable.
 
 ---
 
-### ✅ Day 27 — Promise Chaining Patterns  
+### ✅ Day 27 — Promise Chaining Architecture  
 `02_promise_chain.js`
 
-Covers:
+**Focus: Sequential Composition**
 
-- Returning values vs returning Promises
-- Sequential async pipeline design
-- Centralized error handling
-- Business rule branching inside chains
-- Clean replacement of callback-based flows
+- Returning values vs Promises
+- Chain flattening (avoid nesting)
+- Centralized error boundary
+- Conditional branching logic
+- Async pipeline composition
 
-한국어 요약:
-
-- then()에서 return의 중요성
-- 체이닝 기반 파이프라인 설계
-- 중앙 집중 에러 처리
-- 조건 분기 로직 구현
-- 콜백 헬을 구조적으로 해결
+**Architectural Insight:**
+Promise chains behave like deterministic pipelines,  
+where each stage transforms or forwards the async result.
 
 ---
 
-## 🧠 What is a Promise?
+### ✅ Day 28 — Concurrency & Coordination  
+`03_promise_all_race.js`
+
+**Focus: Parallel Execution Strategies**
+
+- `Promise.all()` (fail-fast aggregation)
+- `Promise.race()` (first-completion strategy)
+- `Promise.allSettled()` (wait-all strategy)
+- `Promise.any()` (first-success strategy)
+
+**Architectural Insight:**
+Promise introduces concurrency primitives  
+that allow explicit control over async coordination.
+
+---
+
+## 🧠 What is a Promise (Architectural View)
 
 A Promise is:
 
 > An object representing the eventual completion  
 > or failure of an asynchronous operation.
 
-Promise는 비동기 작업의 결과 상태를 표현하는 객체입니다.
+More precisely:
 
-### States
+A Promise is a **controlled state container**
+that transitions exactly once and exposes
+a composable continuation interface.
 
-- **pending**
-- **fulfilled**
-- **rejected**
-
-상태 전이는 단 한 번만 발생합니다.
+Promise는 단순한 비동기 객체가 아니라,  
+단 한 번만 상태 전이를 허용하는 **상태 컨테이너**입니다.
 
 ---
 
-## 🔄 Conceptual Async Evolution
+## 🔄 Async System Evolution
 
 ```text
 Callback
     ↓
 Callback Hell
     ↓
-Promise
+Promise (Deterministic State Model)
     ↓
-async / await
+async / await (Syntactic Refinement)
