@@ -1,140 +1,148 @@
-# Analytics Patterns (SQL)
+# SQL Analytics Patterns (09)
 
-This directory contains **advanced analytics patterns implemented purely in SQL**.  
-Each submodule represents a reusable analytical framework commonly used in
-product analytics, growth analysis, and data-driven decision-making.
+This directory contains **advanced analytics design patterns**
+implemented purely in SQL.
 
-> **From raw events → analytical structure → decision-ready metrics**
+It focuses on translating business questions into
+structured, reproducible analytical workflows.
 
-본 디렉토리는 SQL을 활용해  
-실무에서 반복적으로 사용되는 **분석 패턴(Analytics Patterns)** 을  
-체계적으로 정리한 포트폴리오입니다.
+본 디렉토리는 SQL을 활용한  
+**고급 분석 패턴(Advanced Analytics Patterns)**을 다룹니다.
 
----
-
-## 🎯 Objectives
-
-- Transform raw event data into analytical insights
-- Apply cohort-based and time-based thinking using SQL
-- Build reusable SQL templates for analytics & BI
-- Demonstrate end-to-end analytical reasoning (definition → metric → interpretation)
-- Prepare SQL-based analytics portfolio for graduate research & industry use
+단순 쿼리 작성이 아니라,  
+비즈니스 질문을 → 분석 구조 → 지표 설계 → 의사결정 연결  
+까지 이어지는 전체 분석 흐름을 설계합니다.
 
 ---
 
-## 📂 Modules Overview
+# 🎯 Core Objective
 
-### 1️⃣ Cohort Analysis  
-📁 `01_cohort_analysis/`
+To move from:
 
-Analyze user behavior based on **first engagement time**.
-
-**Key Questions**
-- When did users first join?
-- How large is each cohort?
-- How does engagement evolve by cohort?
-
-**Key Techniques**
-- Cohort definition (`first_event_date`)
-- Cohort sizing
-- Retention by cohort
-
-**Days**
-- Day 23–25
+Raw Tables  
+→ Analytical Definitions  
+→ Aggregation Logic  
+→ Decision-Ready Metrics
 
 ---
 
-### 2️⃣ Retention Analysis  
-📁 `02_retention_analysis/`
+# 📂 Module Structure
 
-Measure **how many users remain active over time** after initial engagement.
+This section is organized into practical analytics domains:
 
-**Key Questions**
-- How many users come back after N days?
-- How does retention differ across cohorts?
+1. Cohort Analysis
+2. Retention Analysis
+3. Funnel Analysis
+4. Time Series Analysis
+5. Segmentation
 
-**Key Techniques**
-- Retention event definition
-- Retention matrix construction
-- Retention rate calculation
-
-**Days**
-- Day 26–28
+Each module builds reusable SQL patterns
+that can be adapted to real production datasets.
 
 ---
 
-### 3️⃣ Funnel Analysis  
-📁 `03_funnel_analysis/`
+# 01️⃣ Cohort Analysis (Day 23–25)
 
-Track **user drop-off across sequential steps**.
+**Goal:**  
+Understand how groups of users behave over time
+based on their initial cohort.
 
-**Key Questions**
-- Where do users drop off?
-- Which step has the biggest friction?
-- What is the overall conversion rate?
+### Files
+- `01_define_cohort.sql`
+- `02_cohort_size.sql`
+- `03_retention_by_cohort.sql`
 
-**Key Techniques**
-- Funnel step definition
-- Step-wise user counts
+### Key Concepts
+- Cohort month definition
+- Month offset calculation
+- Cohort-based retention tracking
+
+---
+
+# 02️⃣ Retention Analysis (Day 26–28)
+
+**Goal:**  
+Measure how many users remain active
+after their first interaction.
+
+### Files
+- `01_define_retention.sql`
+- `02_retention_matrix.sql`
+- `03_retention_rate.sql`
+
+### Key Concepts
+- Retention event modeling
+- Retention matrix design
+- Retention rate KPI calculation
+
+---
+
+# 03️⃣ Funnel Analysis (Day 29–31)
+
+**Goal:**  
+Understand user drop-off between steps.
+
+### Files
+- `01_define_funnel_events.sql`
+- `02_step_counts.sql`
+- `03_conversion_rates.sql`
+
+### Key Concepts
+- Step-based event modeling
+- Funnel step counts
 - Conversion rate calculation
-
-**Days**
-- Day 29–31
+- Drop-off identification
 
 ---
 
-### 4️⃣ Time Series Analysis  
-📁 `04_time_series_analysis/`
+# 04️⃣ Time Series Analysis (Day 32–34)
 
-Understand **how metrics evolve over time** and compare against past periods.
+**Goal:**  
+Analyze metrics over time
+and detect trends or changes.
 
-**Key Questions**
-- Is the metric growing or declining?
-- Is change meaningful or just noise?
-- How does today compare to yesterday or last week?
+### Files
+- `01_time_bucket_aggregation.sql`
+- `02_moving_average.sql`
+- `03_period_over_period.sql`
 
-**Key Techniques**
-- Time bucket aggregation
-- Moving averages
-- Period-over-period (DoD / WoW / MoM) analysis
-
-**Days**
-- Day 32–34
-
----
-
-## 🧠 Why Analytics Patterns Matter
-
-Analytics patterns are not just SQL queries —  
-they represent **ways of thinking about data**.
-
-These patterns enable you to:
-- Move beyond simple counts and sums
-- Reason about time, cohorts, and user journeys
-- Translate raw data into actionable insights
-- Communicate findings clearly to stakeholders
-
-In both **graduate research** and **industry analytics**,  
-these patterns form the foundation of serious data work.
+### Key Concepts
+- Time bucketing
+- Rolling window averages
+- Period-over-period growth
+- Trend analysis
 
 ---
 
-## 📌 한국어 요약
+# 05️⃣ Segmentation (Day 35–37)
 
-- 코호트, 리텐션, 퍼널, 시계열 분석을 SQL로 체계화
-- 이벤트 데이터 → 분석 구조 → 지표 계산의 전체 흐름 구현
-- BI·리포트·연구 모두에 재사용 가능한 SQL 템플릿 제공
-- 단순 문법이 아닌 **분석 사고력 중심 포트폴리오**
+**Goal:**  
+Compare behavioral and revenue metrics
+across user groups.
+
+### Files
+- `01_segment_definition.sql`
+- `02_segment_metrics.sql`
+- `03_segment_comparison.sql`
+
+### Key Concepts
+- Rule-based segmentation
+- Segment-level KPI aggregation
+- Share / Lift / Rank comparison
 
 ---
 
-## 🚧 Status
+# 🧠 Architectural Perspective
 
-**Completed (Day 23–34)**  
+These modules follow a unified analytical structure:
 
-This directory represents a complete, practical SQL analytics framework  
-suitable for:
-- Product analytics
-- Growth analysis
-- BI dashboards
-- Graduate-level data analytics portfolios
+```text
+Event / User Tables
+        ↓
+Behavior Modeling
+        ↓
+Aggregation Logic
+        ↓
+KPI Standardization
+        ↓
+Decision-Ready Output
