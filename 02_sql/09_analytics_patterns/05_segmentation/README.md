@@ -1,123 +1,134 @@
-# Segmentation Analysis (SQL)
+# Segmentation (SQL) — Analytics Patterns 05
 
-This directory covers **user segmentation analytics patterns** using SQL.  
-Segmentation transforms raw behavioral data into structured user groups  
-that support marketing, product, and revenue decisions.
+This directory covers **user segmentation analysis patterns** using SQL.
 
-> “Not all users are equal. Segmentation quantifies those differences.”
+Segmentation answers a core analytics question:
 
-본 디렉토리는 SQL을 활용해  
-유저를 행동 기반으로 분류하고,  
-그 세그먼트를 KPI와 연결하는 전체 분석 흐름을 다룹니다.
+> **“Which groups of users behave differently — and how should we act on it?”**
 
----
-
-## 🎯 Objectives
-
-- Define meaningful user segments based on behavior
-- Apply RFM-style logic (Recency, Frequency, Monetary)
-- Quantify segment-level performance metrics
-- Bridge user grouping with business KPIs
-- Build reusable SQL templates for analytics pipelines
+본 디렉토리는 SQL로 **세그먼트를 정의하고**,  
+각 세그먼트의 **핵심 지표를 계산한 뒤**,  
+세그먼트 간 **성과 차이를 비교**하는 실전 패턴을 다룹니다.
 
 ---
 
-## 📂 File Structure & Progress
+## 🎯 Learning Objectives
 
-Each file represents a key analytical step.
+By completing this module, you will be able to:
 
----
-
-## ✅ Day 35 — Segment Definition  
-**`01_segment_definition.sql`**
-
-Defines user segments using behavioral metrics.
-
-### Analytical Logic
-
-- **Recency** → 최근 활동 시점
-- **Frequency** → 최근 90일 활동 빈도
-- **Monetary** → 최근 90일 매출
-
-### Example Segments
-
-- `vip`  
-- `loyal`  
-- `at_risk`  
-- `inactive`  
-
-### Output
-
-`user_segments`
-
-| user_id | segment | as_of_date | recency_days | frequency_90d | monetary_90d |
-|----------|----------|------------|--------------|---------------|--------------|
+- Define segments using clear business rules (rule-based segmentation)
+- Compute segment-level KPIs for reporting and decision-making
+- Compare segments with standardized metrics (share, rank, lift)
+- Produce analysis outputs ready for BI dashboards and product strategy
 
 ---
 
-## ✅ Day 36 — Segment Metrics  
-**`02_segment_metrics.sql`**
+## 📂 Files & Progress
 
-Transforms segments into decision-ready KPIs.
+Each file represents a step in the segmentation workflow:
 
-### Metrics Computed
-
-- users
-- active_users_30d
-- purchasers_90d
-- purchases_90d
-- revenue_90d
-- avg_recency_days
-- purchase_rate_pct
-- arpu_90d
-- arppu_90d
-
-### Analytical Importance
-
-This step answers:
-
-- Which segment drives revenue?
-- Which segment is deteriorating?
-- Which segment deserves targeted campaigns?
-
-### Output
-
-Segment-level KPI table:
-
-| segment | users | revenue_90d | purchase_rate_pct | arpu_90d | arppu_90d |
+**Segment Definition → Segment Metrics → Segment Comparison**
 
 ---
 
-## 🧠 Why Segmentation Matters
+### ✅ Day 35 — Segment Definition  
+`01_segment_definition.sql`
 
-Segmentation is not just grouping —  
-it is a **strategic abstraction layer** between raw data and business decisions.
+**What it does**
 
-- Marketing → Target high-value users
-- Product → Identify retention risk
-- Finance → Forecast revenue contribution
-- Growth → Optimize lifecycle campaigns
+- Defines segments based on stable user attributes or behavioral rules
+- Outputs a consistent segmentation table that downstream queries can reuse
 
-Without segmentation, analytics remains descriptive.  
-With segmentation, analytics becomes actionable.
+**Core concepts**
 
----
+- `segment_key` / `segment_value` design pattern  
+- Rule-based segmentation (e.g., country/device/plan/tenure)
+- Reusable segmentation layer (base table or CTE)
 
-## 📌 한국어 요약
+**Output (recommended)**
 
-- Day 35: 행동 기반 세그먼트 정의 (RFM 로직)
-- Day 36: 세그먼트별 KPI 계산 및 리포트 구조화
-- 세그먼트는 단순 분류가 아니라, 의사결정 프레임워크이다.
+- `user_segments(user_id, segment_key, segment_value)`
 
-이 폴더는  
-**행동 데이터 → 세그먼트 → KPI → 전략 실행**  
-으로 이어지는 SQL 분석 패턴 템플릿이다.
+**한국어 요약**
+
+- 세그먼트 기준을 명확히 정의(속성 기반/규칙 기반)
+- 분석에 재사용 가능한 세그먼트 테이블 구조 설계
 
 ---
 
-## 🚧 Status
+### ✅ Day 36 — Segment Metrics  
+`02_segment_metrics.sql`
 
-Completed (Day 35–36)
+**What it does**
 
-This module forms a reusable segmentation framework  
-for marketing analytics, product analytics, and revenue intelligence.
+- Aggregates user activity into segment-level KPIs
+
+**Typical metrics**
+
+- users, active_users
+- orders, revenue
+- active_rate, purchase_rate
+- ARPU, AOV (optional)
+
+**Output (example)**
+
+- `segment_metrics(segment_key, segment_value, users, active_users, orders, revenue, ...)`
+
+**한국어 요약**
+
+- 세그먼트별 KPI 집계(활성률/전환율/ARPU 등)
+- 리포트/대시보드 친화적 형태로 결과 구성
+
+---
+
+### ✅ Day 37 — Segment Comparison  
+`03_segment_comparison.sql`
+
+**What it does**
+
+- Compares segment KPIs side-by-side and adds business-ready context
+
+**Comparison features**
+
+- `user_share` (segment size share)
+- `*_lift` vs overall baseline (relative performance)
+- ranking (e.g., ARPU rank)
+
+**Why it matters**
+
+Segmentation is only useful when you can answer:
+
+- Which segment is big enough to matter? (**share**)
+- Which segment performs better/worse than average? (**lift**)
+- Which segment should we prioritize? (**rank**)
+
+**한국어 요약**
+
+- 세그먼트 간 성과 차이를 “규모(share) + 상대 성과(lift) + 우선순위(rank)”로 비교
+- 실무 의사결정에 바로 연결되는 비교 결과 생성
+
+---
+
+## 🧠 Recommended Data Model (Concept)
+
+These SQL patterns assume a common analytics setup:
+
+- `users(user_id, signup_date, country, device_type, plan, ...)`
+- `events(user_id, event_time, event_name, revenue, ...)`
+
+Segmentation is typically **joined to user-level activity**, then aggregated.
+
+---
+
+## 🔄 Workflow Summary
+
+```text
+User Table / Event Table
+        ↓
+(1) Define Segments
+        ↓
+(2) Compute Segment Metrics
+        ↓
+(3) Compare Segments (share / lift / rank)
+        ↓
+BI Dashboard / Product Decisions
