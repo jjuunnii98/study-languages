@@ -1,8 +1,18 @@
-Async/Await is not a replacement for Promises.  
-It is a **structured abstraction layer** over Promise-based systems.
+## 🧠 Conceptual Positioning
+
+Async/Await is **not a replacement for Promises**.  
+It is a **structured abstraction layer** built on top of Promise-based systems.
+
+Async/Await does not change how asynchronous logic works internally —  
+it improves how we structure and reason about it.
+
+---
 
 async/await는 Promise를 대체하는 개념이 아니라,  
 Promise 기반 코드를 **구조적으로 표현하기 위한 문법 레이어**입니다.
+
+내부 동작을 바꾸는 것이 아니라,  
+비동기 로직을 더 명확하게 설계하고 사고할 수 있게 해줍니다.
 
 ---
 
@@ -20,6 +30,8 @@ After completing this module, you will be able to:
   - `Promise.race()` — timeout / race patterns
 - Design maintainable async pipelines suitable for real API workflows
 
+---
+
 본 모듈 완료 후 다음을 수행할 수 있습니다:
 
 - async 함수의 반환 구조 설명
@@ -33,14 +45,14 @@ After completing this module, you will be able to:
 
 ## 📂 Files & Progress
 
-Each file represents one architectural step.
+Each file represents one architectural step toward production-grade async design.
 
 ---
 
 ### ✅ Day 29 — Async / Await Fundamentals  
 `01_async_await_basics.js`
 
-#### Core Coverage
+#### 🔎 Core Coverage
 
 - `async` function contract (implicit Promise wrapping)
 - Sequential execution modeling with `await`
@@ -51,7 +63,7 @@ Each file represents one architectural step.
 - Timeout pattern using `Promise.race()`
 - Fail-fast vs partial-success comparison
 
-#### 한국어 요약
+#### 🇰🇷 한국어 요약
 
 - async 함수의 Promise 반환 원리
 - await 기반 순차 실행 구조화
@@ -65,7 +77,7 @@ Each file represents one architectural step.
 ### ✅ Day 30 — Parallel Await & Concurrency Strategy  
 `02_parallel_await.js`
 
-#### Core Coverage
+#### 🔎 Core Coverage
 
 - Sequential vs parallel execution benchmarking
 - Fail-fast concurrency (`Promise.all`)
@@ -74,7 +86,7 @@ Each file represents one architectural step.
 - Controlled concurrency pattern (worker pool design)
 - Production-safe orchestration patterns
 
-#### 한국어 요약
+#### 🇰🇷 한국어 요약
 
 - 순차 vs 병렬 실행 성능 비교
 - fail-fast 전략 이해
@@ -89,17 +101,22 @@ Each file represents one architectural step.
 
 Async/Await improves:
 
-- Readability (linear control flow)
-- Debuggability
-- Error consistency
-- Maintainability
-- Scalability
+- ✅ Readability (linear control flow)
+- ✅ Debuggability
+- ✅ Error consistency
+- ✅ Maintainability
+- ✅ Scalability
 
-It enables asynchronous code to be reasoned about
+It enables asynchronous code to be reasoned about  
 in a **synchronous mental model**.
+
+---
 
 async/await는 비동기 코드를  
 동기 코드처럼 사고할 수 있게 만드는 구조화 도구입니다.
+
+가독성, 유지보수성, 확장성 측면에서  
+실무 프로젝트에서 사실상 표준 패턴입니다.
 
 ---
 
