@@ -1,202 +1,116 @@
 # Error Handling (JavaScript Async — Step 4)
 
-====================================================================
+This directory covers **production-oriented error handling patterns** for asynchronous JavaScript.
+It goes beyond “catch the error” and focuses on **operational reliability**:
 
-This module introduces **structured error handling architecture**
-in modern JavaScript systems.
+- Structured exception handling (`try/catch/finally`)
+- Error classification (transient vs fatal)
+- Retry strategies (with exponential backoff)
+- Designing failure-aware async pipelines
 
-It moves beyond simple syntax usage and focuses on:
+본 디렉토리는 JavaScript 비동기 환경에서의 **실무형 에러 처리 설계**를 다룹니다.  
+단순히 “에러를 잡는다” 수준이 아니라, 운영 환경에서 중요한:
 
-- Error propagation models
-- try / catch / finally design
-- Async/await rejection handling
-- Layered error responsibility
-- Rethrow (error forwarding) patterns
-- Production-oriented stability design
+- 예외 처리 구조화 (`try/catch/finally`)
+- 에러 유형 분류 (일시적 오류 vs 치명적 오류)
+- 재시도 전략 설계 (exponential backoff)
+- 실패를 고려한 비동기 파이프라인 설계
 
-본 모듈은 JavaScript에서의 **구조적 에러 처리 설계(Architecture)**를 다룹니다.
+를 목표로 합니다.
 
-단순 문법 설명이 아니라,
-실무에서 필요한:
-
-- 에러 전파 흐름 이해
-- async/await 환경에서의 reject 처리
-- 계층적 책임 분리
-- 재던지기(rethrow) 패턴
-- finally 실행 보장 특성
-
-을 설계 관점에서 정리합니다.
-
-====================================================================
-
+---
 
 ## 🎯 Learning Objectives
 
 After completing this module, you will be able to:
 
-- Explain synchronous error vs Promise rejection
-- Use try/catch/finally correctly in async workflows
-- Understand how await transforms rejection into catchable errors
-- Design layered error handling (Service → Controller)
-- Implement rethrow patterns safely
-- Avoid silent failures and swallowed errors
+- Explain how errors propagate in async flows
+- Use `try/catch/finally` to centralize error handling
+- Design predictable cleanup logic (`finally`)
+- Implement retry for **transient failures** safely
+- Use exponential backoff to reduce load during outages
+- Avoid unsafe patterns (infinite retry, swallowing errors)
 
 본 모듈 완료 후 다음을 수행할 수 있습니다:
 
-- 동기 에러와 Promise reject의 차이 설명
-- async/await에서 try/catch 정확히 활용
-- reject → catch 흐름 이해
-- 계층적 에러 책임 분리 설계
-- 재던지기 패턴 구현
-- 조용히 사라지는 에러 방지
+- async 흐름에서 에러 전파 구조 설명
+- `try/catch/finally`로 에러 처리를 중앙화
+- `finally`로 정리(cleanup) 로직을 안정적으로 보장
+- 일시적 오류에 대한 재시도(retry) 전략 구현
+- exponential backoff로 장애 시 부하 완화
+- 무한 재시도/에러 삼키기 같은 위험 패턴 회피
 
-
-====================================================================
-
+---
 
 ## 📂 Files & Progress
 
---------------------------------------------------------------------
-
-### ✅ Day 32 — try / catch / finally
+### ✅ Day 32 — Try / Catch / Finally
 `01_try_catch_finally.js`
 
---------------------------------------------------------------------
+**Core Coverage**
+- `try/catch/finally` syntax and contract
+- Async error capture (`await` inside `try`)
+- Error rethrow vs swallow trade-offs
+- Cleanup patterns (close, reset, rollback)
+- A consistent error-handling “shape” for real workflows
 
-### Core Coverage
+**한국어 요약**
+- try/catch/finally의 동작 원리 정리
+- await 기반 비동기 예외를 안전하게 처리
+- 에러를 다시 던질지(rethrow) / 내부에서 처리할지 기준
+- finally 기반 자원 정리(cleanup) 패턴
+- 실전 워크플로우에서 일관된 에러 처리 구조화
 
-- Synchronous try/catch fundamentals
-- finally execution guarantee
-- Async/await rejection handling
-- Promise error propagation flow
-- Rethrow pattern
-- Layered architecture example (Service → Controller)
+---
 
---------------------------------------------------------------------
+### ✅ Day 33 — Retry with Exponential Backoff
+`02_retry_backoff.js`
 
-### 한국어 요약
+**Core Coverage**
+- Transient failure modeling (e.g., network / 5xx / timeout)
+- Bounded retry (`maxRetries`) to prevent infinite loops
+- Exponential backoff: `delay = baseDelay * 2^attempt`
+- Failure escalation: retry → final failure throw
+- Operational mindset: reducing load during outage windows
 
-- 동기 코드 에러 처리 구조
-- finally 블록 실행 보장
-- async/await reject 처리 방식
-- 에러 계층 전달 구조
-- 실무형 서비스/컨트롤러 패턴
+**한국어 요약**
+- 네트워크/서버 5xx 등 “일시적 실패”를 가정한 구조
+- 무한 재시도 방지: `maxRetries`로 상한 설정
+- backoff 공식: `baseDelay * 2^attempt`
+- 재시도 실패 시 최종 실패로 승격(throw)
+- 장애 시점에 서버 부하를 줄이기 위한 운영 설계 관점
 
+> Note (실무 팁): 운영 환경에서는 **jitter(랜덤 지연)** 를 섞어
+> 동시에 재시도하는 트래픽 폭주(thundering herd)를 완화합니다.
 
-====================================================================
+---
 
+## 🧠 Design Notes (Architecture)
 
-## 🧠 Why Error Handling Matters
+### 1) Error Handling is part of control flow
+Errors are not “exceptions to ignore.”  
+They are **a control-flow path** that must be designed intentionally.
 
-Error handling is not about “catching errors.”
+에러는 “예외적으로 무시할 것”이 아니라,  
+의도적으로 설계해야 하는 **하나의 제어 흐름**입니다.
 
-It is about:
+### 2) Retry is only for transient failures
+Retry should be applied **only** when failure is likely temporary.
+For fatal errors (invalid input, auth failure, logic bugs), retry wastes time and resources.
 
-- Defining responsibility boundaries
-- Preserving observability
-- Maintaining system stability
-- Preventing inconsistent states
-- Designing predictable failure behavior
+재시도는 “일시적 오류”에만 적용해야 합니다.  
+치명적 오류(권한 실패, 입력 오류, 버그)에 재시도는 자원 낭비입니다.
 
-에러 처리는 단순히 잡는 것이 아니라,
+---
 
-“어디에서 책임지고 어떻게 복구할 것인가”를 설계하는 문제입니다.
+## 🔄 Recommended Flow (실무형 패턴)
 
-잘못 설계된 에러 처리는 다음을 유발합니다:
-
-- Silent failures
-- Unhandled Promise rejections
-- Debugging difficulty
-- System instability
-
-
-====================================================================
-
-
-## 🔄 Error Flow Model
-
-### 1️⃣ Synchronous Flow
-
-throw → catch → finally
-
-
-### 2️⃣ Async / Await Flow
-
-Promise.reject()
+```text
+Call async operation
     ↓
-await
+try/catch: classify error
     ↓
-catch
+if transient → retry with backoff (bounded)
+else → fail fast / surface error
     ↓
-finally
-
-
-====================================================================
-
-
-## 🏗 Layered Error Architecture
-
-Controller
-    ↓
-Service
-    ↓
-Repository / API
-
-
-✔ 하위 계층:
-- 로그 기록
-- 필요 시 rethrow
-
-✔ 상위 계층:
-- 최종 사용자 응답 처리
-- 에러 메시지 가공
-- HTTP 상태 코드 결정
-
-이 구조는 Separation of Concerns의 핵심입니다.
-
-
-====================================================================
-
-
-## 🧩 Production Best Practices
-
-- Never swallow errors silently
-- Always log contextual information
-- Rethrow when responsibility belongs to upper layer
-- Use custom Error classes for domain-level control
-- Handle global unhandled rejections
-- Avoid mixing business logic with error formatting logic
-
-
-====================================================================
-
-
-## 🚀 Async Evolution Context
-
-Callback
-    ↓
-Promise
-    ↓
-async / await
-    ↓
-Structured Error Handling
-
-
-이 단계는 Async 설계의 안정화 단계입니다.
-
-비동기 코드를 “동작하는 코드”에서
-“운영 가능한 코드”로 전환하는 레이어입니다.
-
-
-====================================================================
-
-
-## 📌 Status
-
-Active Development — Day 32 Completed
-
-This module finalizes the async architecture layer
-by introducing structured error control.
-
-
-====================================================================
+finally: cleanup (always)
