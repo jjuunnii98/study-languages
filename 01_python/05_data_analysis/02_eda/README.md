@@ -1,31 +1,32 @@
 # 📊 Exploratory Data Analysis (EDA) — 02_eda
 
-This directory covers **structured exploratory data analysis (EDA) workflows**
-for analytical and machine learning projects.
+This directory implements a **structured and production-aware EDA workflow**
+for analytics and machine learning projects.
 
 EDA is not random plotting.
 
-It is a systematic process that answers:
+It is a systematic diagnostic layer that answers:
 
-- What does the data look like?
-- Is it clean?
+- What does the dataset structurally look like?
+- Is it statistically stable?
 - Are there missing values?
-- Are there extreme values (outliers)?
+- Are there heavy tails or extreme outliers?
 - Do segments behave differently?
 - Is the dataset modeling-ready?
 
-본 디렉토리는 분석/ML 프로젝트에서 필요한  
-**체계적인 EDA(탐색적 데이터 분석) 구조**를 다룹니다.
+본 디렉토리는 분석 및 ML 프로젝트에서 필요한  
+**체계적인 EDA 아키텍처 구조**를 구현합니다.
 
 EDA는 단순 시각화가 아니라,
 
-- 데이터 품질 점검
-- 분포 이해
-- 이상치 탐지
+- 데이터 구조 진단
+- 통계적 특성 이해
+- 분포 왜곡 탐지
+- 이상치 영향 분석
 - 세그먼트 비교
-- 모델링 준비 상태 점검
+- 모델링 준비 상태 평가
 
-을 수행하는 핵심 단계입니다.
+를 수행하는 핵심 단계입니다.
 
 ---
 
@@ -33,19 +34,22 @@ EDA는 단순 시각화가 아니라,
 
 After completing this module, you will be able to:
 
-- Perform structured summary statistics analysis
-- Diagnose missing values and data quality issues
-- Detect potential outliers using IQR
-- Compare numeric distributions across segments
-- Build reusable EDA utilities for production pipelines
+- Perform structured statistical profiling
+- Diagnose missing values and structural data issues
+- Detect outliers using IQR and percentile logic
+- Evaluate skewness and tail behavior
+- Identify transformation candidates (log / power / Yeo-Johnson)
+- Compare numeric behavior across segments
+- Build reusable EDA components for scalable pipelines
 
 본 모듈 완료 후 다음을 수행할 수 있습니다:
 
 - 요약 통계 기반 데이터 진단
-- 결측치 및 품질 문제 파악
-- IQR 기반 이상치 탐지
-- 세그먼트별 수치 차이 분석
-- 재사용 가능한 EDA 코드 구조 설계
+- 결측치 및 품질 문제 체계적 파악
+- IQR 및 분위수 기반 이상치 탐지
+- 왜도 기반 변환 후보 판단
+- 세그먼트별 통계 비교
+- 재사용 가능한 EDA 설계 구조 구현
 
 ---
 
@@ -56,105 +60,146 @@ After completing this module, you will be able to:
 ## ✅ Day 50 — Summary Statistics  
 `01_summary_statistics.py`
 
-### What It Implements
+### Core Implementation
 
-Structured EDA workflow including:
+Structured statistical profiling including:
 
-- Basic profile (shape, dtypes, head)
-- Missing value summary
+- Basic dataset structure check (shape / dtypes / head)
+- Missing value diagnostics
 - Numeric descriptive statistics
-- Skewness & kurtosis
+- Skewness & kurtosis calculation
 - IQR-based outlier detection
-- Categorical frequency summary
-- Grouped statistics (segment comparison)
+- Categorical frequency summary (Top-K)
+- Grouped statistics (segment-level comparison)
+
+Day 50의 핵심은:
+
+> “데이터의 기본 구조와 품질을 통계적으로 진단하는 단계”
 
 ---
 
-# 🧠 EDA Structure (Conceptual Flow)
+## ✅ Day 51 — Distribution Analysis  
+`02_distribution_analysis.py`
+
+### Core Implementation
+
+Advanced distribution diagnostics including:
+
+- Quantile-based distribution summary (1%, 5%, 95%, 99%)
+- Skewness-driven transformation hints
+- IQR outlier rate calculation
+- Histogram visualization
+- Boxplot for spread and extreme values
+- QQ plot for normality inspection
+- Top-skewed feature visualization
+- CSV-based summary export
+
+Day 51의 핵심은:
+
+> “분포의 형태를 이해하고 변환 전략을 판단하는 단계”
+
+---
+
+# 🧠 Integrated EDA Flow (Day 50 → 51)
 
 Raw Dataset
-↓
-Basic Structure Check
-↓
-Missing Value Analysis
-↓
-Numeric Distribution Summary
-↓
-Outlier Detection (IQR)
-↓
-Categorical Frequency Analysis
-↓
-Grouped / Segment Comparison
-↓
-Modeling Readiness 판단
+    ↓
+Structural Profiling
+    ↓
+Missing Value Diagnosis
+    ↓
+Numeric Summary Statistics
+    ↓
+Skewness / Kurtosis Analysis
+    ↓
+IQR Outlier Detection
+    ↓
+Distribution Visualization
+    ↓
+Transformation Candidate Identification
+    ↓
+Segment-Level Comparison
+    ↓
+Modeling Readiness Assessment
 
-이 흐름은 데이터 분석에서 가장 기본이면서도  
-가장 중요한 구조입니다.
+이 흐름은 단순 탐색이 아니라  
+**모델링 이전의 안전 점검 체계**입니다.
 
 ---
 
-# 🔍 Why Day 50 Matters
+# 🔍 Why Day 50–51 Matter
 
-Most modeling failures originate from:
+Most modeling instability originates from:
 
 - Hidden missing values
 - Heavy-tailed distributions
-- Outliers distorting means
-- Imbalanced segments
-- Incorrect data types
+- High skewness
+- Extreme outliers
+- Segment imbalance
+- Incorrect numeric types
 
-Day 50 establishes:
+Day 50–51 establish:
 
 - Statistical awareness
-- Data hygiene discipline
-- Modeling safety checks
-- Reproducible EDA patterns
+- Distribution-level insight
+- Transformation decision support
+- Modeling safety diagnostics
+- Reproducible EDA workflow
 
 ---
 
-# ⚙️ Practical Features Implemented
+# ⚙️ Practical Capabilities Implemented
 
-### 1️⃣ Missing Value Diagnostics
+## 1️⃣ Missing Value Diagnostics
 - Count
 - Percentage
-- Sorted importance
+- Priority ranking
 
-### 2️⃣ Numeric Distribution Checks
+## 2️⃣ Numeric Distribution Summary
 - Mean / Median / Std
-- Custom percentiles (1%, 5%, 95%, 99%)
+- Extended percentiles
 - Skewness
 - Kurtosis
 
-### 3️⃣ IQR-based Outlier Count
-Quick detection of extreme observations.
+## 3️⃣ IQR-based Outlier Detection
+- Outlier count
+- Outlier rate
+- Robust extreme-value check
 
-### 4️⃣ Categorical Top-K Frequency
-Segment cardinality and imbalance detection.
+## 4️⃣ Transformation Hinting
+- Right-skew detection → log1p / sqrt suggestion
+- Left-skew detection → power transform suggestion
+- Approximate symmetry detection
 
-### 5️⃣ Grouped Statistics
-Segment-level comparison for:
+## 5️⃣ Distribution Visualization
+- Histogram
+- Boxplot
+- QQ plot (if scipy available)
 
-- Mean
-- Median
-- Spread
+## 6️⃣ Segment-Level Comparison
+- Grouped mean / median / spread
+- Cross-segment behavior inspection
 
 ---
 
-# 🚀 Status
+# 🚀 Current Status
 
-**Day 50 Completed**
+**Day 50–51 Completed**
 
-This module establishes the statistical foundation
-for:
+This module establishes the statistical and distributional foundation for:
 
 - Feature engineering
-- Distribution transformation
+- Log transformation
+- Robust scaling
 - Outlier handling
-- Model-ready dataset preparation
+- Modeling pipeline preparation
 
-Next Steps (Planned):
+---
 
-- Distribution visualization
-- Log transformation checks
-- Correlation heatmaps
-- Automated EDA reporting
+# 🔜 Next Planned Extensions
+
+- Correlation & multicollinearity analysis
+- Distribution transformation benchmarking
+- Automated EDA report generator
+- Feature stability diagnostics
+- Data drift comparison module
