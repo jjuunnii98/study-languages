@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fetch Basics Demo (Day 39)</title>
+    <style>
+      /* ✅ (한국어) 라이브러리 없이도 보기 좋게: 최소한의 스타일만 적용 */
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        margin: 24px;
+        line-height: 1.5;
+      }
+      h1 {
+        margin: 0 0 8px;
+      }
+      .muted {
+        color: #666;
+        margin-top: 0;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        max-width: 980px;
+      }
+      .card {
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        padding: 16px;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      button {
+        border: 1px solid #ddd;
+        background: #fff;
+        padding: 10px 12px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #f7f7f7;
+      }
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      input {
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        min-width: 240px;
+      }
+      pre {
+        background: #0b1020;
+        color: #d7e2ff;
+        padding: 12px;
+        border-radius: 12px;
+        overflow: auto;
+        max-height: 420px;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border: 1px solid #ddd;
+        border-radius: 999px;
+        font-size: 12px;
+        color: #444;
+      }
+      .ok {
+        border-color: #b7e4c7;
+        color: #2d6a4f;
+      }
+      .warn {
+        border-color: #ffd6a5;
+        color: #9a6700;
+      }
+      .err {
+        border-color: #ffadad;
+        color: #9b2226;
+      }
+      .divider {
+        height: 1px;
+        background: #eee;
+        margin: 12px 0;
+      }
+      .small {
+        font-size: 12px;
+        color: #666;
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 820px) {
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Fetch Basics Demo</h1>
+    <p class="muted">
+      Day 39 — 브라우저에서 <code>fetch()</code>를 직접 실행해보고, 응답/에러를 UI로 확인하는 실습 페이지
+    </p>
+
+    <div class="grid">
+      <!-- ✅ (한국어) 1) 엔드포인트 입력 + 공통 설정 -->
+      <section class="card">
+        <h2 style="margin: 0 0 10px">1) Endpoint & Settings</h2>
+
+        <div class="row">
+          <label class="badge">
+            Base URL
+            <!-- ✅ (한국어) 기본은 테스트에 자주 쓰는 public API로 설정 -->
+            <input id="baseUrl" type="text" value="https://jsonplaceholder.typicode.com" />
+          </label>
+
+          <label class="badge">
+            Timeout(ms)
+            <!-- ✅ (한국어) AbortController 기반 timeout 실습용 -->
+            <input id="timeoutMs" type="number" value="3000" min="0" step="500" />
+          </label>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <!-- ✅ (한국어) GET -->
+          <button id="btnGet">GET /posts/1</button>
+
+          <!-- ✅ (한국어) POST -->
+          <button id="btnPost">POST /posts</button>
+
+          <!-- ✅ (한국어) QueryString + Headers 예시 -->
+          <button id="btnQuery">GET /comments?postId=1</button>
+
+          <!-- ✅ (한국어) 파싱 전략 테스트: text/html 처럼 JSON이 아닌 경우도 안전 처리 -->
+          <button id="btnText">GET (Text) example.com</button>
+
+          <!-- ✅ (한국어) 일부러 에러를 만들어 보기: 404 -->
+          <button id="btn404">GET /invalid-path (404)</button>
+
+          <!-- ✅ (한국어) 로딩 상태에서 중복 요청 방지용 -->
+          <span id="statusBadge" class="badge warn">idle</span>
+        </div>
+
+        <p class="small" style="margin-top: 10px">
+          ✅ 팁: 브라우저 콘솔(F12)에서도 로그가 찍힙니다. 이 페이지는 “요청 → 응답 파싱 → UI 출력” 흐름을 익히기 위한
+          실습용입니다.
+        </p>
+      </section>
+
+      <!-- ✅ (한국어) 2) 결과 출력 영역 -->
+      <section class="card">
+        <h2 style="margin: 0 0 10px">2) Output</h2>
+
+        <div class="two-col">
+          <div>
+            <div class="row" style="margin-bottom: 8px">
+              <span class="badge" id="metaBadge">meta: -</span>
+              <span class="badge" id="urlBadge">url: -</span>
+            </div>
+
+            <pre id="output">Click a button to run fetch.</pre>
+          </div>
+
+          <div>
+            <h3 style="margin: 0 0 8px">3) Notes (학습 포인트)</h3>
+            <ul>
+              <li><b>fetch는 4xx/5xx에서 자동 throw 하지 않음</b> → <code>response.ok</code> 직접 검사</li>
+              <li><b>timeout</b>은 기본 제공이 없음 → <code>AbortController</code>로 구현</li>
+              <li><b>응답 파싱</b>은 JSON만 가정하면 위험 → <code>Content-Type</code> 기반 분기</li>
+              <li><b>에러 바디</b>도 파싱해서 남겨야 디버깅이 쉬움</li>
+            </ul>
+
+            <p class="small">
+              이 index.html은 Day 35~38의 개념을 브라우저 환경에서 “통합 실습”하기 위한 파일입니다.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      /**
+       * Day 39: Fetch Basics Integration (Browser UI)
+       *
+       * ✅ (한국어)
+       * - Day 35~38에서 만든 "fetch 설계 개념"을 브라우저 UI로 한 번에 테스트한다.
+       * - 핵심 포인트:
+       *   1) response.ok 체크로 4xx/5xx를 실패로 처리
+       *   2) AbortController로 timeout 구현
+       *   3) Content-Type 기반 안전 파싱(JSON/text/empty)
+       *   4) 실패 응답에서도 body를 읽어 디버깅 정보 확보
+       */
+
+      // -----------------------------
+      // 0) DOM helpers
+      // -----------------------------
+      const $ = (id) => document.getElementById(id);
+
+      const outputEl = $("output");
+      const metaBadge = $("metaBadge");
+      const urlBadge = $("urlBadge");
+      const statusBadge = $("statusBadge");
+
+      const baseUrlInput = $("baseUrl");
+      const timeoutInput = $("timeoutMs");
+
+      const btnGet = $("btnGet");
+      const btnPost = $("btnPost");
+      const btnQuery = $("btnQuery");
+      const btnText = $("btnText");
+      const btn404 = $("btn404");
+
+      // -----------------------------
+      // 1) UI state helpers
+      // -----------------------------
+      function setLoading(isLoading, label = "loading") {
+        // ✅ (한국어) 로딩 중에는 버튼을 비활성화하여 중복 요청을 방지한다.
+        [btnGet, btnPost, btnQuery, btnText, btn404].forEach((b) => (b.disabled = isLoading));
+
+        statusBadge.textContent = isLoading ? label : "idle";
+        statusBadge.className = `badge ${isLoading ? "warn" : "ok"}`;
+      }
+
+      function printJson(obj) {
+        outputEl.textContent = JSON.stringify(obj, null, 2);
+      }
+
+      function printText(text) {
+        outputEl.textContent = text;
+      }
+
+      function setMeta({ ok, status, statusText, contentType }) {
+        // ✅ (한국어) 응답 메타데이터를 눈으로 확인할 수 있게 표시한다.
+        const badgeClass = ok ? "ok" : "err";
+        metaBadge.className = `badge ${badgeClass}`;
+        metaBadge.textContent = `status: ${status} (${ok ? "OK" : "FAIL"}) / ${statusText} / ${contentType || "-"}`;
+      }
+
+      function setUrl(url) {
+        urlBadge.className = "badge";
+        urlBadge.textContent = `url: ${url}`;
+      }
+
+      // -----------------------------
+      // 2) Custom error type
+      // -----------------------------
+      class HttpError extends Error {
+        /**
+         * ✅ (한국어)
+         * - 실무에서는 "그냥 Error"보다 "상태코드/URL/응답바디"를 담은 에러가 디버깅에 훨씬 유리함
+         */
+        constructor(message, { status, url, body }) {
+          super(message);
+          this.name = "HttpError";
+          this.status = status;
+          this.url = url;
+          this.body = body;
+        }
+      }
+
+      // -----------------------------
+      // 3) Safe response parsing
+      // -----------------------------
+      async function safeParseResponse(response) {
+        /**
+         * ✅ (한국어)
+         * - Content-Type을 보고 JSON인지 텍스트인지 분기해서 파싱한다.
+         * - 204 같은 empty-body도 고려한다.
+         * - 파싱 실패(깨진 JSON)도 대비한다.
+         */
+        const contentType = response.headers.get("content-type") || "";
+
+        // (한국어) No Content
+        if (response.status === 204) {
+          return { parsed: null, contentType };
+        }
+
+        // (한국어) JSON 응답
+        if (contentType.includes("application/json")) {
+          try {
+            const data = await response.json();
+            return { parsed: data, contentType };
+          } catch (e) {
+            // (한국어) JSON이 깨졌을 때: 텍스트로 fallback
+            const text = await response.text().catch(() => "");
+            return { parsed: { _parseError: "Invalid JSON", raw: text }, contentType };
+          }
+        }
+
+        // (한국어) 그 외: 텍스트로 처리
+        const text = await response.text().catch(() => "");
+        return { parsed: text, contentType };
+      }
+
+      // -----------------------------
+      // 4) Fetch wrapper with timeout + ok check
+      // -----------------------------
+      async function fetchWithTimeout(url, options = {}, timeoutMs = 3000) {
+        /**
+         * ✅ (한국어)
+         * - AbortController로 timeout 제어
+         * - response.ok를 직접 검사하여 4xx/5xx를 실패로 처리
+         * - 실패 응답에서도 body를 파싱해 HttpError에 포함
+         */
+        const controller = new AbortController();
+        const timer = timeoutMs > 0 ? setTimeout(() => controller.abort(), timeoutMs) : null;
+
+        try {
+          const res = await fetch(url, { ...options, signal: controller.signal });
+
+          const { parsed, contentType } = await safeParseResponse(res);
+
+          setMeta({
+            ok: res.ok,
+            status: res.status,
+            statusText: res.statusText,
+            contentType,
+          });
+
+          // ✅ (한국어) 4xx/5xx는 "성공 흐름"이 아니므로 에러로 올린다.
+          if (!res.ok) {
+            throw new HttpError(`HTTP ${res.status} ${res.statusText}`, {
+              status: res.status,
+              url,
+              body: parsed,
+            });
+          }
+
+          return parsed;
+        } catch (err) {
+          // ✅ (한국어) AbortError(타임아웃) 처리
+          if (err && err.name === "AbortError") {
+            throw new Error(`Request timed out after ${timeoutMs}ms`);
+          }
+          throw err;
+        } finally {
+          if (timer) clearTimeout(timer);
+        }
+      }
+
+      // -----------------------------
+      // 5) URL helpers (querystring)
+      // -----------------------------
+      function buildUrl(base, path, params = {}) {
+        /**
+         * ✅ (한국어)
+         * - querystring은 직접 문자열 조합보다 URL/URLSearchParams를 쓰는 것이 안전(인코딩 자동)
+         */
+        const url = new URL(path, base);
+        Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, String(v)));
+        return url.toString();
+      }
+
+      // -----------------------------
+      // 6) Button handlers (Day 35~38 통합)
+      // -----------------------------
+      async function run(actionName, fn) {
+        const base = baseUrlInput.value.trim();
+        const timeoutMs = Number(timeoutInput.value) || 0;
+
+        try {
+          setLoading(true, actionName);
+          const result = await fn(base, timeoutMs);
+
+          // ✅ (한국어) 결과 타입에 따라 출력 방식 분기
+          if (typeof result === "string") {
+            printText(result);
+          } else {
+            printJson(result);
+          }
+        } catch (err) {
+          // ✅ (한국어) 에러도 구조화해서 출력
+          if (err instanceof HttpError) {
+            printJson({
+              name: err.name,
+              message: err.message,
+              status: err.status,
+              url: err.url,
+              body: err.body,
+            });
+          } else {
+            printJson({
+              name: err?.name || "Error",
+              message: err?.message || String(err),
+            });
+          }
+          // 콘솔에도 남겨서 디버깅하기 쉽게
+          console.error(err);
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      btnGet.addEventListener("click", () => {
+        run("GET", async (base, timeoutMs) => {
+          const url = new URL("/posts/1", base).toString();
+          setUrl(url);
+
+          return await fetchWithTimeout(url, { method: "GET" }, timeoutMs);
+        });
+      });
+
+      btnPost.addEventListener("click", () => {
+        run("POST", async (base, timeoutMs) => {
+          const url = new URL("/posts", base).toString();
+          setUrl(url);
+
+          // ✅ (한국어) JSON POST 예시 payload
+          const payload = { title: "hello", body: "from Junyeong", userId: 1 };
+
+          return await fetchWithTimeout(
+            url,
+            {
+              method: "POST",
+              headers: {
+                // ✅ (한국어) JSON 바디를 보낼 때 Content-Type 설정
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify(payload),
+            },
+            timeoutMs
+          );
+        });
+      });
+
+      btnQuery.addEventListener("click", () => {
+        run("QUERY", async (base, timeoutMs) => {
+          // ✅ (한국어) querystring 안전 생성
+          const url = buildUrl(base, "/comments", { postId: 1 });
+          setUrl(url);
+
+          // ✅ (한국어) 헤더 예시(필수는 아니지만 패턴 학습용)
+          return await fetchWithTimeout(
+            url,
+            {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+              },
+            },
+            timeoutMs
+          );
+        });
+      });
+
+      btnText.addEventListener("click", () => {
+        run("TEXT", async (_base, timeoutMs) => {
+          // ✅ (한국어) JSON이 아닌 응답을 안전 파싱하는지 확인
+          const url = "https://example.com";
+          setUrl(url);
+
+          return await fetchWithTimeout(url, { method: "GET" }, timeoutMs);
+        });
+      });
+
+      btn404.addEventListener("click", () => {
+        run("404", async (base, timeoutMs) => {
+          // ✅ (한국어) 일부러 404를 발생시켜 response.ok 처리와 에러 바디 파싱 흐름을 확인
+          const url = new URL("/invalid-path", base).toString();
+          setUrl(url);
+
+          return await fetchWithTimeout(url, { method: "GET" }, timeoutMs);
+        });
+      });
+
+      // 초기 표시
+      setMeta({ ok: true, status: "-", statusText: "-", contentType: "-" });
+      setUrl("-");
+    </script>
+  </body>
+</html>
