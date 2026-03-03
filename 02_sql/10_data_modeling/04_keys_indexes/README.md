@@ -188,7 +188,7 @@ WHERE customer_id = ?
 
 ---
 
-🧠 Integrated Architecture
+### 🧠 Integrated Architecture
 
 ```
 Primary Key (Entity Integrity)
