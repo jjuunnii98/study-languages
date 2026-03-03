@@ -176,7 +176,7 @@ WHERE customer_id = ?
 	•	데이터 분포가 편향되면 효과 증가
 	•	항상 EXPLAIN 기반 검증 필요
 
-⸻
+---
 
 ### 5️⃣ 인덱스 설계 체크리스트
 	1.	자주 실행되는 쿼리 분석
@@ -186,7 +186,7 @@ WHERE customer_id = ?
 	5.	EXPLAIN 실행 계획 확인
 	6.	쓰기 부하 고려
 
-⸻
+---
 
 🧠 Integrated Architecture
 
@@ -209,9 +209,9 @@ Reliable Analytical Queries
 
 두 요소는 함께 설계되어야 합니다.
 
-⸻
+---
 
-🚀 Current Status
+## 🚀 Current Status
 
 Day 44–45 Completed
 
@@ -223,9 +223,9 @@ This module demonstrates:
 	•	Execution-plan-based performance validation
 	•	Production-aware SQL architecture mindset
 
-⸻
+---
 
-🔜 Next Expansion
+## 🔜 Next Expansion
 	•	UNIQUE / CHECK constraints
 	•	Composite keys & bridge tables
 	•	Covering index strategies
