@@ -1,129 +1,234 @@
 # 🔑 Keys & Indexes (SQL) — 04_keys_indexes
 
-This directory covers **production-grade key design and indexing fundamentals**
-for analytics and data modeling.
+This module covers **production-grade key design and index strategy**
+for relational modeling and analytical workloads.
 
-Keys are not “just constraints.”
-They define **data integrity**, **join correctness**, and **query performance**.
+Keys are not just constraints.
+They define:
 
-본 디렉토리는 분석/데이터모델링 관점에서 핵심이 되는  
-**Key 설계(PK/FK) 및 인덱싱 기본 원리**를 실무 수준으로 정리합니다.
+- data integrity
+- relationship correctness
+- join stability
+- aggregation reliability
+- query performance
+
+본 디렉토리는 분석 및 데이터 모델링 환경에서 필수적인  
+**Primary Key / Foreign Key 설계와 인덱스 전략**을 실무 수준으로 정리합니다.
+
+단순 문법 학습이 아니라,
+
+- 무결성(Integrity)
+- 관계 안정성(Relational Stability)
+- 워크로드 기반 인덱스 설계
+- 실행 계획 기반 성능 검증
+
+까지 포함합니다.
 
 ---
 
-## 🎯 Learning Objectives
+# 🎯 Learning Objectives
 
 After completing this module, you will be able to:
 
-- Explain why primary keys are mandatory for stable modeling
-- Enforce referential integrity using foreign keys
+- Explain why Primary Keys are mandatory
+- Enforce referential integrity using Foreign Keys
 - Choose correct `ON DELETE / ON UPDATE` strategies
 - Prevent orphan rows and silent join bugs
-- Apply indexing to foreign key columns for join performance
-- Validate integrity using negative test cases (expected failures)
+- Design indexes based on query patterns
+- Apply composite index ordering rules
+- Validate execution plans using `EXPLAIN`
 
 본 모듈 완료 후 다음을 수행할 수 있습니다:
 
-- PK가 왜 모델 안정성의 필수 조건인지 설명
-- FK로 참조 무결성(Referential Integrity) 구현
-- `ON DELETE / ON UPDATE` 전략을 상황에 맞게 선택
-- 고아 레코드(Orphan Row) 및 조인 오류를 사전에 차단
-- FK 인덱싱으로 조인 성능 최적화
-- 무결성 위반 테스트(실패 케이스)로 설계 검증
+- PK가 모델 안정성의 기준점임을 설명
+- FK로 참조 무결성 구현
+- 삭제/수정 정책 전략적으로 선택
+- 고아 레코드 및 조인 왜곡 사전 차단
+- 쿼리 패턴 기반 인덱스 설계
+- 복합 인덱스 컬럼 순서 원리 이해
+- 실행 계획 기반 성능 검증
 
 ---
 
-## 📂 Files & Progress
+# 📂 Files & Progress
 
-### ✅ Day 44 — Primary & Foreign Keys  
+---
+
+## ✅ Day 44 — Primary & Foreign Keys  
 `01_primary_foreign_keys.sql`
 
-#### Core Coverage (English)
+### What It Implements
 
-- Creates a **parent table** (`customers`) with a `PRIMARY KEY`
-- Creates a **child table** (`orders`) with a `FOREIGN KEY`
-- Enforces referential integrity using:
-  - `ON DELETE RESTRICT` (prevent deleting parent rows referenced by children)
-  - `ON UPDATE CASCADE` (propagate PK updates safely)
-- Adds an index on the FK column (`orders.customer_id`) for join performance
-- Includes integrity test queries:
-  - FK violation insert (expected to fail)
-  - Restrict delete test (expected to fail)
-- Provides a join-based validation query for analytics (e.g., total_spent)
-
-#### 핵심 요약 (한국어)
-
-- **부모 테이블(customers)** 에 PK를 정의하여 엔티티 식별 안정성 확보
-- **자식 테이블(orders)** 에 FK를 정의하여 참조 무결성 보장
-- 실무형 삭제/수정 정책 예시:
-  - `ON DELETE RESTRICT` → 자식 존재 시 부모 삭제 금지(기본 안전값)
-  - `ON UPDATE CASCADE` → 부모 PK 변경 시 자식 FK 자동 반영
-- FK 컬럼 인덱스 생성으로 조인/집계 성능 최적화
-- “정상 케이스 + 실패 케이스” 테스트로 설계 검증까지 포함
+- Parent table (`customers`) with `PRIMARY KEY`
+- Child table (`orders`) with `FOREIGN KEY`
+- Referential integrity enforcement:
+  - `ON DELETE RESTRICT`
+  - `ON UPDATE CASCADE`
+- Foreign key index creation
+- Integrity violation test cases
+- Join validation query (aggregation example)
 
 ---
 
-## 🧠 Practical Notes (실무 포인트)
+### 🧠 Day 44 핵심 개념
 
-### 1) PK는 모델의 “기준점(Anchor)”
-PK가 없거나 불안정하면:
+#### 1️⃣ Primary Key = Entity Integrity
 
-- 중복 데이터 발생
-- 조인 결과가 폭발(duplication)
-- 집계값 왜곡
-- 데이터 품질/검증 비용 증가
+PK는:
 
-PK는 단순 제약조건이 아니라 **모델의 신뢰성 기반**입니다.
+- 고유성 보장
+- NULL 불가
+- 엔티티 식별 기준
+
+PK가 없으면:
+
+- 중복 발생
+- 조인 결과 왜곡
+- 집계 신뢰도 하락
 
 ---
 
-### 2) FK는 “조인 정확성”을 강제하는 장치
+#### 2️⃣ Foreign Key = Referential Integrity
+
+FK는:
+
+- 존재하는 PK만 참조 허용
+- 고아 레코드 방지
+- 관계 안정성 보장
+
 FK가 없으면:
 
-- 존재하지 않는 ID로 데이터가 들어올 수 있음
-- 조인에서 누락/NULL이 발생하고도 조용히 넘어감(“silent bug”)
-- 데이터 파이프라인 품질이 장기적으로 붕괴
-
-FK는 **분석 결과의 정확성을 보장**합니다.
+- 잘못된 ID 삽입 가능
+- 조인 시 NULL 누락 발생
+- 장기적으로 데이터 품질 붕괴
 
 ---
 
-### 3) ON DELETE 전략 선택 가이드
+#### 3️⃣ ON DELETE 전략 비교
 
-| Strategy | Meaning | When to use |
-|---------|---------|-------------|
-| `RESTRICT` | prevent delete if referenced | safest default (analytics/fact-like) |
-| `CASCADE` | delete children automatically | strong dependency (true ownership) |
-| `SET NULL` | nullify reference | optional relationships / soft links |
+| Strategy | 설명 | 권장 상황 |
+|----------|------|------------|
+| RESTRICT | 자식 존재 시 삭제 금지 | 기본 안전값 |
+| CASCADE  | 자식 자동 삭제 | 강한 종속 관계 |
+| SET NULL | 참조 제거 | 약한 관계 |
 
-실무 기본값은 보통 `RESTRICT`가 안전합니다.  
-(특히 Fact → Dimension 관계에서 “자동 삭제”는 리스크가 큼)
-
----
-
-### 4) FK 컬럼 인덱스는 “거의 필수”
-FK는 무결성만 보장하고, 성능을 보장하지는 않습니다.  
-대부분의 DB에서 FK 인덱스는 자동 생성되지 않으므로:
-
-- 자식 테이블의 FK 컬럼 인덱스 생성 권장
-- 조인/집계 성능에 매우 큰 영향을 줌
+Analytics 환경에서는 보통 `RESTRICT`가 안전합니다.
 
 ---
 
-## ✅ Status
+## ✅ Day 45 — Index Design Strategy  
+`02_index_design.sql`
 
-**Day 44 Completed**
+### What It Implements
 
-This module currently establishes a clean foundation for:
-
-- integrity-safe modeling
-- predictable joins
-- scalable analytics queries
-
-Next planned topics:
-
-- `UNIQUE` / `CHECK` constraints (domain integrity)
-- composite keys & bridge tables
-- index strategy patterns (covering index, partial index, etc.)
+- FK join index
+- WHERE filtering index
+- Date range index
+- Composite index `(customer_id, order_date)`
+- GROUP BY scenario discussion
+- Selectivity analysis
+- Execution plan validation (`EXPLAIN`)
 
 ---
+
+## 🧠 Day 45 핵심 개념
+
+### 1️⃣ 인덱스는 읽기 최적화 장치
+
+- SELECT 성능 향상
+- 쓰기 성능 저하
+- 무분별한 생성 금지
+
+---
+
+### 2️⃣ 워크로드 기반 설계
+
+인덱스는 쿼리에서 시작한다:
+
+- WHERE
+- JOIN
+- ORDER BY
+- GROUP BY
+
+---
+
+### 3️⃣ 복합 인덱스 설계 원칙
+
+예:
+
+```sql
+WHERE customer_id = ?
+  AND order_date BETWEEN ...
+```  
+
+권장 인덱스:
+
+```
+(customer_id, order_date)
+```
+
+규칙:
+	•	동등조건(=) 컬럼을 앞에
+	•	범위조건(BETWEEN, >, <) 컬럼을 뒤에
+
+### 4️⃣ 선택도(Selectivity) 고려
+	•	값 종류가 적으면 인덱스 효과 제한적
+	•	데이터 분포가 편향되면 효과 증가
+	•	항상 EXPLAIN 기반 검증 필요
+
+⸻
+
+### 5️⃣ 인덱스 설계 체크리스트
+	1.	자주 실행되는 쿼리 분석
+	2.	WHERE/JOIN 컬럼 우선 적용
+	3.	복합 인덱스 순서 결정
+	4.	ORDER BY 일관성 고려
+	5.	EXPLAIN 실행 계획 확인
+	6.	쓰기 부하 고려
+
+⸻
+
+🧠 Integrated Architecture
+
+```
+Primary Key (Entity Integrity)
+        ↓
+Foreign Key (Referential Integrity)
+        ↓
+Join Stability
+        ↓
+Index Optimization
+        ↓
+Execution Plan Validation
+        ↓
+Reliable Analytical Queries
+```
+
+무결성 없는 인덱스는 위험하고,
+인덱스 없는 무결성은 느립니다.
+
+두 요소는 함께 설계되어야 합니다.
+
+⸻
+
+🚀 Current Status
+
+Day 44–45 Completed
+
+This module demonstrates:
+	•	Integrity-safe relational modeling
+	•	Constraint-driven data validation
+	•	Query-driven index design
+	•	Composite index reasoning
+	•	Execution-plan-based performance validation
+	•	Production-aware SQL architecture mindset
+
+⸻
+
+🔜 Next Expansion
+	•	UNIQUE / CHECK constraints
+	•	Composite keys & bridge tables
+	•	Covering index strategies
+	•	Partial index patterns
+	•	Index anti-patterns
+	•	Locking & concurrency basics
