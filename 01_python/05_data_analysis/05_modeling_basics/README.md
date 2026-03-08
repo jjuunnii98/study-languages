@@ -1,22 +1,26 @@
 # 🤖 Modeling Basics — 05_modeling_basics (Python Data Analysis)
 
-This directory implements **production-aware modeling fundamentals** for machine learning workflows.
+This directory implements **production-aware modeling fundamentals**
+for machine learning workflows.
 
-Modeling is not “just fit a model”.  
-It is a disciplined pipeline that starts with:
+Modeling is not “just fitting a model.”
+It is a disciplined process that starts with:
 
-- correct dataset splitting (to prevent leakage)
-- reproducible evaluation setup
-- baseline performance benchmarks
-- auditable experiment structure
+- correct dataset splitting
+- leakage-safe preprocessing
+- reproducible evaluation design
+- metric-aware model assessment
+- stable validation strategy
 
-본 디렉토리는 ML 프로젝트의 **모델링 기본 구조(실무형)**를 다룹니다.  
-단순히 모델을 실행하는 것이 아니라,
+본 디렉토리는 ML 프로젝트의 **모델링 기본 구조(실무형)**를 다룹니다.
 
+단순히 모델을 학습시키는 것이 아니라,
+
+- 데이터 분할의 정확성
 - 데이터 누수(leakage) 방지
 - 재현 가능한 평가 구조
-- baseline 성능 기준 설정
-- 실험 구조의 일관성
+- 올바른 성능 해석
+- 안정적인 검증 전략
 
 을 코드로 증명하는 것을 목표로 합니다.
 
@@ -26,21 +30,21 @@ It is a disciplined pipeline that starts with:
 
 After completing this module, you will be able to:
 
-- Explain why **train/test split** is mandatory for honest evaluation
-- Prevent data leakage (fit on train, transform on test)
-- Establish **baseline models** before advanced ML
-- Use `stratify` to preserve class balance for classification
-- Handle time-series splitting correctly (no shuffle, past → future)
-- Build reproducible modeling experiments
+- Explain why train/test split is mandatory for honest evaluation
+- Prevent preprocessing leakage using train-only fitting rules
+- Evaluate classification models using multiple metrics
+- Interpret confusion matrix and threshold trade-offs
+- Use cross validation to estimate model stability
+- Build reusable modeling utilities for scalable ML workflows
 
 본 모듈 완료 후 다음을 수행할 수 있습니다:
 
-- Train/Test 분리가 왜 필수인지 설명
-- 전처리 누수 방지(fit=train, transform=test) 구조 구현
-- 고급 모델 이전에 **baseline 모델 성능 기준 설정**
-- 분류 문제에서 stratify로 라벨 분포 유지
-- 시계열 분할 원칙(Shuffle 금지, 과거→미래) 적용
-- 재현 가능한 모델링 실험 구조 구축
+- Train/Test split이 왜 필수인지 설명
+- train 기준 전처리로 누수 방지 구조 구현
+- 분류 모델을 다중 지표로 평가
+- confusion matrix와 threshold trade-off 해석
+- cross validation으로 성능 안정성 평가
+- 재사용 가능한 모델링 유틸 구성
 
 ---
 
@@ -48,195 +52,261 @@ After completing this module, you will be able to:
 
 ---
 
-# ✅ Day 62 — Train/Test Split (Leakage-Safe Split)
-
+## ✅ Day 62 — Train/Test Split  
 `01_train_test_split.py`
 
-## Core Coverage (English)
+### Core Coverage
 
-- Train/Test split as an evaluation boundary (no leakage)
-- Reproducibility using `random_state`
+- Honest evaluation boundary via train/test split
+- Reproducibility with `random_state`
 - Class-balance preservation using `stratify`
-- Time-series split basics (sort by time, no shuffle)
-- Leakage-safe preprocessing pattern
-- Split reporting for experiment auditing
+- Time-series split basics (`shuffle=False`, past → future)
+- Leakage-safe preprocessing pattern:
+  - fit on train only
+  - transform on train/test
+- Split reporting:
+  - shapes
+  - label distribution
+  - sample rows
 
-## 코드 내 한국어 설명 요약
+### 핵심 개념
 
-- Train/Test split은 모델 평가의 **경계선(boundary)**
-- `random_state`로 결과 재현성 확보
-- 분류 문제는 `stratify=y`로 train/test 라벨 비율 유지
-- 시계열은 `shuffle=False` + 시간 기반 분할
-- 전처리는 **train에서만 fit**
-- split 결과를 리포트하여 **검증 가능한 실험 구조**를 만든다
+Train/Test split은 모델링의 첫 번째 방어선이다.
 
----
+핵심 원칙:
 
-# ✅ Day 63 — Baseline Models (Minimum Performance Benchmark)
+- train과 test는 평가 경계선이다
+- test 정보를 train 과정에서 사용하면 안 된다
+- 시계열 데이터는 무작위 섞기 금지
+- 전처리 규칙은 반드시 train 기준으로만 학습해야 한다
 
-`02_baseline_models.py`
+### Summary
 
-## Core Coverage (English)
-
-Before training complex models, establish a **baseline performance level**.
-
-Baseline models provide a **minimum benchmark** that any real model must beat.
-
-This module introduces:
-
-- Dummy classifiers for classification tasks
-- Dummy regressors for regression tasks
-- Baseline evaluation metrics
-
-Strategies implemented:
-
-Classification:
-
-- `most_frequent`
-- `stratified`
-- `uniform`
-
-Regression:
-
-- `mean`
-- `median`
-
-Evaluation metrics:
-
-- classification → accuracy / f1 / roc_auc
-- regression → MAE / RMSE / R²
-
-## 코드 내 한국어 설명 요약
-
-Baseline 모델은 **“최소 성능 기준선”**이다.
-
-고급 모델(RandomForest, XGBoost 등)을 사용하기 전에 반드시 확인해야 한다.
-
-이유:
-
-- 모델이 baseline보다 못하면 **모델링 실패**
-- 데이터 누수(leakage) 탐지 가능
-- 불균형 데이터 문제 조기 발견
-- 평가 구조 검증 가능
-
-사용 전략
-
-분류 문제
-
-- `most_frequent` → 항상 가장 많은 클래스 예측
-- `stratified` → 라벨 비율 기반 랜덤 예측
-- `uniform` → 균등 랜덤 예측
-
-회귀 문제
-
-- `mean` → 평균값 예측
-- `median` → 중앙값 예측
-
-핵심 질문
-
-> “내 모델이 baseline보다 얼마나 좋아졌는가?”
+```text
+Raw Data
+    ↓
+Train/Test Split
+    ↓
+Fit preprocessing on Train only
+    ↓
+Transform Train/Test
+    ↓
+Model Training & Honest Evaluation
+```
 
 ---
 
-# 🧠 Why Day 62 & Day 63 Matter
+## ✅ Day 64 — Model Evaluation  
+`03_model_evaluation.py`
 
-Most ML projects fail silently because of:
+### Core Coverage
 
-- data leakage
-- improper evaluation split
-- unstable experiment setup
-- lack of baseline comparison
+- Classification model training (baseline)
+- Accuracy, Precision, Recall, F1 Score
+- ROC AUC
+- Confusion Matrix
+- Classification Report
+- Threshold-based decision logic
+- Metric interpretation guide
 
-These two modules establish the **foundation of trustworthy modeling**.
+### 핵심 개념
 
-### Day 62 provides
+Accuracy 하나만으로 모델을 평가하면 위험하다.
 
-- honest evaluation boundary
-- leakage-safe preprocessing
-- reproducible split logic
+문제의 비용 구조에 따라 중요한 지표가 달라진다:
 
-### Day 63 provides
+- Precision 중요 → False Positive 비용이 클 때
+- Recall 중요 → False Negative 비용이 클 때
+- F1 중요 → Precision / Recall 균형이 필요할 때
+- ROC AUC 중요 → 확률 예측 전반의 품질을 보고 싶을 때
 
-- minimum performance benchmark
-- sanity check for modeling pipeline
-- baseline reference for future models
+### Summary
 
----
-
-# 🔒 Leakage-Safe Rule (중요)
-
-Preprocessing must follow:
-
-train: fit + transform 
-test: transform only
-
-'''
-즉
-
-- scaler / encoder / imputer → train에서 규칙 학습
-- test → 동일 규칙 적용
-
-test 정보를 보고 규칙을 만들면 **성능이 과대평가된다.**
-'''
+```text
+Predicted Labels / Probabilities
+    ↓
+Accuracy / Precision / Recall / F1
+    ↓
+Confusion Matrix
+    ↓
+ROC AUC
+    ↓
+Metric-based Interpretation
+```
 
 ---
 
-# 🔄 Modeling Workflow (Conceptual)
+## ✅ Day 65 — Cross Validation  
+`04_cross_validation.py`
 
-'''
+### Core Coverage
+
+- K-Fold / Stratified K-Fold validation
+- Fold-wise performance tracking
+- Mean / Std interpretation
+- Leakage-safe preprocessing with `Pipeline`
+- Train vs Test score comparison
+- Hold-out split vs CV comparison
+
+### 핵심 개념
+
+단일 train/test split은 split 운에 따라 성능이 흔들릴 수 있다.
+
+Cross Validation은:
+
+- 평균 성능을 본다
+- fold 간 변동성을 본다
+- 모델의 안정성을 판단하게 해준다
+
+특히 중요한 해석:
+
+- `test_mean` ↑ → 평균 성능 좋음
+- `test_std` ↓ → fold 간 안정적
+- `train_mean >> test_mean` → 과적합 가능성
+
+### Summary
+
+```text
+Dataset
+    ↓
+K folds
+    ↓
+Train on K-1 folds / Validate on 1 fold
+    ↓
+Repeat K times
+    ↓
+Mean performance + Std stability
+```
+
+---
+
+# 🧠 Modeling Workflow (Integrated)
+
+```text
 Raw Dataset
-↓
+    ↓
 Train/Test Split (Day 62)
-↓
-Baseline Model (Day 63)
-↓
-Preprocessing (train-fit only)
-↓
-Advanced Model Training
-↓
-Evaluation
-↓
-Experiment Report
-'''
+    ↓
+Leakage-Safe Preprocessing
+    ↓
+Baseline Model Training
+    ↓
+Metric-Based Evaluation (Day 64)
+    ↓
+Cross Validation (Day 65)
+    ↓
+Reliable Modeling Decision
+```
 
 ---
 
-# 📊 Modeling Principle
+# ⚙️ Practical Modeling Principles
 
-A model is only meaningful if:
+## 1️⃣ Split First, Preprocess Later
+Always split before scaling, encoding, or imputing.
 
-Model Performance > Baseline Performance
-
-If not,
-
-- feature engineering 문제
-- data leakage
-- wrong modeling strategy
-
-가능성이 높다.
+데이터를 먼저 나누고 그 다음 전처리해야 한다.  
+전처리를 먼저 하면 test 정보가 train에 섞일 수 있다.
 
 ---
 
-# 🚀 Next Modules (Planned)
+## 2️⃣ Fit on Train Only
+Preprocessing statistics are learned information.
 
-This module prepares the ground for:
+예:
 
-- model evaluation metrics
-- cross validation
-- sklearn pipelines
+- scaler의 mean/std
+- imputer의 median/mode
+- encoder의 category mapping
+
+이런 값들은 반드시 train에서만 학습해야 한다.
+
+---
+
+## 3️⃣ Metrics Depend on Business Cost
+There is no universally “best” metric.
+
+예:
+
+- 의료 진단 → Recall 우선
+- 스팸 필터 → Precision 우선
+- 불균형 분류 → F1 / ROC AUC 함께 확인
+
+---
+
+## 4️⃣ Stability Matters
+A model with slightly lower mean but much lower variance
+may be safer than a high-variance model.
+
+평균 성능뿐 아니라 성능의 흔들림(std)도 함께 봐야 한다.
+
+---
+
+## 5️⃣ Pipelines Reduce Leakage Risk
+Using `Pipeline` helps ensure
+that preprocessing happens correctly inside each fold.
+
+특히 Cross Validation에서는 Pipeline이 누수 방지의 핵심이다.
+
+---
+
+# 📊 Capability Summary
+
+| Area | Implemented |
+|------|------------|
+| Train/Test split | ✅ |
+| Stratified split | ✅ |
+| Time-series split basics | ✅ |
+| Leakage-safe scaling | ✅ |
+| Classification metrics | ✅ |
+| Confusion matrix | ✅ |
+| ROC AUC | ✅ |
+| Classification report | ✅ |
+| Cross validation | ✅ |
+| Fold-wise score reporting | ✅ |
+| CV mean/std interpretation | ✅ |
+| Pipeline-based preprocessing | ✅ |
+
+---
+
+# 🚀 Current Status
+
+**Day 62, 64, 65 Completed**
+
+This module now establishes a clean foundation for:
+
+- honest model evaluation
+- leakage-safe preprocessing
+- reproducible experiment setup
+- stable validation strategy
+- portfolio-ready ML workflow design
+
+---
+
+# 🔜 Next Logical Expansion
+
+Possible next topics:
+
 - hyperparameter tuning
-- experiment tracking
+- feature importance / model interpretation
+- calibration and threshold tuning
+- imbalanced classification strategies
+- regression evaluation
+- end-to-end modeling pipeline
 
 ---
 
-# ✅ Status
+# 🏁 Summary
 
-Day 62 Completed  
-Day 63 Completed
+This module moves modeling beyond:
 
-This module now provides a clean baseline for:
+“train a model and print accuracy”
 
-- reproducible ML experiments
-- leakage-safe modeling workflows
-- baseline benchmarking
-- portfolio-grade machine learning structure
+into:
+
+- controlled data splitting
+- leakage-safe preprocessing
+- metric-aware evaluation
+- stability-aware validation
+
+It forms the foundation for **production-grade machine learning experimentation**.
