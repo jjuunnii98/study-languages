@@ -124,14 +124,11 @@ def chunked(data, size):
 
 # 4. Files in This Directory
 
-File
-Description
-01_time_complexity_patterns.py
-Big-O 시간복잡도 패턴 예제
-02_profiling_basics.py
-perf_counter, cProfile 기반 성능 분석
-03_memory_optimization.py
-generator, chunk processing 기반 메모리 최적화
+| File | Description |
+|---|---|
+| 01_time_complexity_patterns.py | Big-O 시간복잡도 패턴 예제|
+| 02_profiling_basics.py | perf_counter, cProfile 기반 성능 분석|
+| 03_memory_optimization.py | generator, chunk processing 기반 메모리 최적화|
 
 ---
 
